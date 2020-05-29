@@ -1,0 +1,5 @@
+Item Name/Minimum Weight(g)/Status
+Banana/200/active
+Apple/300/disabled
+Baby Food/700/disabled
+Beer/550/disabled
