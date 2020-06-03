@@ -11,6 +11,7 @@ class Application(tk.Tk):
         self.geometry("600x500")
         self.title("PBL 1 Application")
         self.addMenu()
+        MainUI(self)
 
     def addMenu(self):
         self.menu = tk.Menu()
@@ -19,7 +20,6 @@ class Application(tk.Tk):
         self.menu.add_cascade(label="File", menu=self.subMenu)  # Main Menu
         self.subMenu.add_command(label="Main Menu", command=lambda: self.changepage("MainUI"))
         self.subMenu.add_command(label="Add Item Page", command=lambda: self.changepage("AddItem"))
-        self.subMenu.add_command(label="Test Page", command=lambda: self.changepage("PageTwo"))
         self.subMenu.add_command(label="Quit", command=self.quit)
 
     def changepage(self,viewName):
