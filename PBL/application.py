@@ -2,11 +2,14 @@ import tkinter as tk
 from View.addItemView import *
 from View.MainUI import *
 
+resourcesFolder = os.path.join(os.getcwd(), 'Resources')
+
 
 class Application(tk.Tk):
 
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
+        self.makeResourcesFolder()
 
         self.geometry("600x500")
         self.grid_rowconfigure(0, weight=1)  # this needed to be added
@@ -36,7 +39,9 @@ class Application(tk.Tk):
 
         self.addMenu()
 
-
+    def makeResourcesFolder(self):
+        if not os.path.isdir(resourcesFolder):
+            os.mkdir(resourcesFolder)
 
 def main():
     app = Application()
