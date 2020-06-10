@@ -9,9 +9,13 @@ class Application(tk.Tk):
         tk.Tk.__init__(self, *args, **kwargs)
 
         self.geometry("600x500")
+        self.grid_rowconfigure(0, weight=1)  # this needed to be added
+        self.grid_columnconfigure(0, weight=1)  # as did this
+        #self.resizable(width=False,height=False)
         self.title("PBL 1 Application")
         self.addMenu()
-        MainUI(self)
+        #MainUI(self)
+        AddItemView(self)
 
     def addMenu(self):
         self.menu = tk.Menu()

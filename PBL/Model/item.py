@@ -1,8 +1,8 @@
 
-class Order:
+class Item:
 
 
-    def __init__(self,name,quantity,status):
+    def __init__(self,name,weight,status,amazon_url,imgPath):
         """
         :param name: Name of the item
         :param quantity: How many items need to be ordered
@@ -13,5 +13,7 @@ class Order:
                         - Disabled: The User deactivated the system for this order
         """
         self.name = name
-        self.quantity = quantity
+        self.weight = weight
         self.status = status #InStock, Ordered, Low, Disabled
+        self.amazon_url = amazon_url
+        self.imgPath = imgPath
