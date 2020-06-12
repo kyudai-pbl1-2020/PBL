@@ -1,10 +1,11 @@
 import os
 import csv
+from application import resourcesFolder as resourcesPath
 
-class Controller:
+
+class CsvController:
     def __init__(self):
-        self.resourcesFolder = os.path.join(os.getcwd() + 'Resources')
-        self.csvfile = os.path.join(self.resourcesFolder,'items.csv')
+        self.csvfile = os.path.join(resourcesPath,'items.csv')
         self.createCSVFile()
 
     def createCSVFile(self):

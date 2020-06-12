@@ -1,29 +1,31 @@
 import os
 import requests
-import csv
+
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from application import resourcesFolder as resourcesPath
 
 class Controller:
     def __init__(self):
-        self.resourcesFolder = os.path.join(os.getcwd() + 'Resources')
-        self.makeResourcesFolder()
+        self.imagesFolder = os.path.join(resourcesPath, 'images')#PBL/Resources/images
         self.createDriver()
 
     def createDriver(self):
-        self.driver = webdriver.Chrome(os.path.join(self.resourcesFolder,'chromedriver'))
+        #self.driver = webdriver.Chrome(os.path.join(self.resourcesFolder,'chromedriver'))
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
 
 
     def closeDriver(self):
          self.driver.close()
 
 
-    def makeResourcesFolder(self):
-        if not os.path.isdir(self.resourcesFolder):
-            os.mkdir(self.resourcesFolder)
+    def makeImagesFolder(self):
+        if not os.path.isdir(self.imagesFolder):
+            os.makedirs(self.imagesFolder)
 
 
     def getImage(self,url):
@@ -39,9 +41,9 @@ class Controller:
 
 
     def download(self,url,productName):
-        self.makeResourcesFolder()
+        self.makeImagesFolder()
         response = requests.get(url, stream=True)
-        filename = os.path.join(self.resourcesFolder, productName)
+        filename = os.path.join(self.imagesFolder, productName)
         progress = response.iter_content(1024)
         with open(filename, "wb") as f:
             for data in progress:
