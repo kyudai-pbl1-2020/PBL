@@ -20,7 +20,7 @@ class Application(tk.Tk):
     def addMenu(self):
         self.menu = tk.Menu()
         self.config(menu=self.menu)
-        self.subMenu = tk.Menu(self.menu)
+        self.subMenu = tk.Menu(self.menu,tearoff=False)
         self.menu.add_cascade(label="File", menu=self.subMenu)  # Main Menu
         self.subMenu.add_command(label="Main Menu", command=lambda: self.changepage("MainUI"))
         self.subMenu.add_command(label="Add Item Page", command=lambda: self.changepage("AddItem"))
