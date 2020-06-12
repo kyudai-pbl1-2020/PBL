@@ -20,6 +20,8 @@ class Sensor:
         """
         min_weight = self.weight * self.min_stock
         if measure < min_weight:
-            Order()
+            return False
+        else:
+            return True
 
 
