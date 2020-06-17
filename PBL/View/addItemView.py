@@ -8,6 +8,7 @@ class AddItemView(tk.Frame):
 
     def __init__(self, parent):
         tk.LabelFrame.__init__(self, parent,text="Add Item",labelanchor="n",font=("Arial",18),padx=10,pady=6)#,background="white")
+        self.parent = parent
         self.grid()
 
         self.grid_columnconfigure(0, weight=1)
@@ -29,7 +30,7 @@ class AddItemView(tk.Frame):
 
         self.weight_label = tk.Label(name_frame, text="Desired Weight", borderwidth=7, font=("Arial",12)).grid(row=1,column=0,padx=20,pady=10)
         self.weight_entry = tk.Entry(name_frame,bd=2, width=40)
-        self.weight.grid(row=1,column=1,padx=20,pady=10)
+        self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
         self.add_button = tk.Button(button_frame, text="Done", borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
         self.add_button.pack(side=tk.RIGHT,padx=30,pady=10)
@@ -48,14 +49,18 @@ class AddItemView(tk.Frame):
         item_status = "Inactive"
         amazon_url = self.url_text.get("1.0","end-1c")
         img_url = self.controller.getImage(amazon_url)
+        unit_price = self.controller.getItemPrice()
+        quantity = self.quantity_entry.get()
 
         self.controller.download(img_url,product_name)
 
         imgPath = os.path.join(self.controller.imagesFolder, product_name)
         self.controller.closeDriver()
 
-        item = Item(product_name,weight_goal,item_status,amazon_url,imgPath)
+        item = Item(product_name,weight_goal,unit_price,quantity,item_status,amazon_url,imgPath)
         self.csvController = CsvController()
         self.csvController.appendItemToCSV(item)
 
         self.parent.changepage("MainUI")
+
+

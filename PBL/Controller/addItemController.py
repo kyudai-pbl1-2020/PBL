@@ -6,6 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
+#https://stackoverflow.com/questions/16180428/can-selenium-webdriver-open-browser-windows-silently-in-background
 
 from application import resourcesFolder as resourcesPath
 
@@ -51,12 +53,19 @@ class Controller:
                 f.write(data)
 
 
+    def getItemPrice(self):
+        price_xpath = "//*[@id='priceblock_ourprice']"
+        item_price = self.driver.find_element_by_xpath(price_xpath).text
+        #item starts with currency symbol $,¥,...
+        item_price = item_price[1:]
+        print(item_price)
+        return item_price
+
+
 # if __name__ == "__main__":
 #     c = Controller()
-#     url = "https://www.amazon.co.uk/Autoglym-AG-035001-Interior-Shampoo/dp/B00114WOBC/ref=sr_1_1?ie=UTF8&qid=1553519250&sr=8-1&keywords=715933155337"
-#     #img_urls = c.get_images(url)
-#     #for img in img_urls:
-#     #    c.download(img)
-#     img_url = c.getImage(url)
-#     c.download(img_url,"barre-tendre")
+#     url = "https://www.amazon.co.jp/%E5%92%8C%E5%85%89%E5%A0%82-FQ4-%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AE%E9%9B%A2%E4%B9%B3%E9%A3%9F-%E8%A3%8F%E3%81%94%E3%81%97%E3%81%8A%E3%81%95%E3%81%8B%E3%81%AA-2-6g%C3%976%E5%80%8B/dp/B0052VL6RI/ref=sr_1_12?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&dchild=1&keywords=baby+food&qid=1592376143&sr=8-12"
+#     c.getImage(url)
+#
+#     c.closeDriver()
 
