@@ -27,6 +27,13 @@ class Sensor:
         else:
             return True
 
+def measure2data( out_sensor ):
+    """
+    :param out_sensor: Output of Sensor ( "ST, +XXXXX.XX, g" )
+    to take weight data out of output_sensor
+    """
+    _, data, _ = out_sensor.split(",")
+    return float( data )
 
 def main():
     item = "Water"
@@ -34,8 +41,12 @@ def main():
     min_stock = 3
     water_sensor = Sensor( item, weight, min_stock )
     for _ in range( 5 ): # while True:
-        measure = random.randrange( 1000, 3000, 1 ) # output from sensor
-        print( measure, water_sensor.stockcheck( measure ) )
+        # measure = random.randrange( 1000, 3000, 1 )
+        measure = measure2data( "ST, +00231.35, g" ) # output from sensor
+        if water_sensor.stockcheck( measure ):
+            print( str( measure ) + "\tOrdered" )
+        else:
+            print( str( measure ) + "\tNot Ordered" )
         time.sleep( 1 )
 
 if __name__ == "__main__":
