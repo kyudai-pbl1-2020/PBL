@@ -1,9 +1,11 @@
+import os
+
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException,ElementNotInteractableException
 from selenium.webdriver.support.select import Select
 
 
@@ -25,10 +27,11 @@ class OrderItemController:
         #Click on one time purchase box
         one_time_purchase_div_xpath = "//*[@id='newAccordionRow']"
         one_time_purchase_alternate_xpath = "//*[@id='oneTimeBuyBox']"
+
         try:
-            self.naviguate(one_time_purchase_div_xpath)
+            self.naviguate(one_time_purchase_div_xpath,one_time_purchase_alternate_xpath)
         except TimeoutException:
-            self.naviguate(one_time_purchase_alternate_xpath)
+            one_time_purchase_button = self.driver.find_element_by_id("oneTimeBuyBox").click()
 
         #Select quantity from dropdown menu
         quantity_dropdown_menu_xpath = "//*[@id='quantity']"
@@ -45,15 +48,59 @@ class OrderItemController:
         nav_bar_cart_xpath = "//*[@id='nav-cart']"
         self.naviguate((nav_bar_cart_xpath))
 
-        #Checkout
+        #Proceed to checkout
         checkout_button_xpath = "//*[@id='sc-buy-box-ptc-button']/span/font/font/input"
-        self.naviguate(checkout_button_xpath)
+        alternate_xpath = '//input[@type="submit" and @value="Proceed to checkout" and @class="a-button-input"]'
+        try:
+            self.naviguate_by_id("sc-buy-box-ptc-button")
+        except TimeoutException:
+            self.naviguate(checkout_button_xpath,alternate_xpath)
+
+        self.login()
+
+        standard_shipping_radio_button = "//*[@id='spc-orders']/div/div/div[3]/div/div/div[2]/div[2]/div[1]/fieldset/div[1]/input"
+        self.naviguate(standard_shipping_radio_button)
 
 
-    def naviguate(self,xpath):
+    def naviguate(self,xpath,alternative_xpath=None):
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+                (By.XPATH, xpath)))
+            self.driver.find_element_by_xpath(xpath).click()
+        except TimeoutException:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+                (By.XPATH, xpath)))
+            self.driver.find_element_by_xpath(alternative_xpath).click()
+
+
+    def naviguate_by_id(self,id):
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
-            (By.XPATH, xpath)))
-        self.driver.find_element_by_xpath(xpath).click()
+            (By.ID, id)))
+        self.driver.find_element_by_id(id).click()
+
+    def login(self):
+        email_entry_xpath = "//*[@id='ap_email']"
+        #amazon_id = os.environ.get('AMAZON_ID')
+        amazon_id = "pblunit1@gmail.com"
+
+        WebDriverWait(self.driver,10).until(EC.presence_of_element_located((By.XPATH,email_entry_xpath)))
+        email_entry = self.driver.find_element_by_xpath(email_entry_xpath).send_keys(amazon_id)
+
+        continue_button_xpath = "//*[@id='continue']"
+        self.naviguate(continue_button_xpath)
+
+        password_entry_xpath = "//*[@id='ap_password']"
+        #amazon_pw = os.environ.get('AMAZON_PW')
+        amazon_pw = "2020pbl1"
+
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.XPATH, password_entry_xpath)))
+            password_entry = self.driver.find_element_by_xpath(email_entry_xpath).send_keys(amazon_pw)
+        except ElementNotInteractableException:
+            password_entry = self.driver.find_element_by_id("ap_password").send_keys(amazon_pw)
+
+        login_button_xpath = "//*[@id='signInSubmit']"
+        self.naviguate(login_button_xpath)
 
 
 from Model import item as Item
