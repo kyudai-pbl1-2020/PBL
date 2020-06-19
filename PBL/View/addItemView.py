@@ -1,5 +1,7 @@
 import tkinter as tk
 import os
+import math
+
 from Controller.addItemController import Controller
 from Controller.csvController import CsvController
 from Model.item import Item
@@ -9,6 +11,7 @@ class AddItemView(tk.Frame):
     def __init__(self, parent):
         tk.LabelFrame.__init__(self, parent,text="Add Item",labelanchor="n",font=("Arial",18),padx=10,pady=6)#,background="white")
         self.parent = parent
+        self.amazon_limit = 2000.0 #(¥)
         self.grid()
 
         self.grid_columnconfigure(0, weight=1)
@@ -32,7 +35,8 @@ class AddItemView(tk.Frame):
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
         self.quantity_label = tk.Label(name_frame, text="Quantity", borderwidth=7,font=("Arial",12)).grid(row=2,column=0,padx=20,pady=5)
-        self.quantity_entry = tk.Entry(name_frame, bd=2, width=20).grid(row=2,column=1,padx=20,pady=10)
+        self.quantity_entry = tk.Entry(name_frame, bd=2, width=20)
+        self.quantity_entry.grid(row=2,column=1,padx=20,pady=10)
 
         self.var1 = tk.StringVar()
         self.var2 = tk.StringVar()
@@ -63,15 +67,23 @@ class AddItemView(tk.Frame):
         self.amazon_url = self.url_text.get("1.0","end-1c")
         self.img_url = self.controller.getImage(self.amazon_url)
         self.unit_price = self.controller.getItemPrice()
-        self.quantity = self.quantity_entry.get()
         self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name)
+
+        self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
+        self.quantity_entry.delete(0,tk.END)
+        self.quantity_entry.insert(0,self.quantity)
+
+        total_price = int(self.quantity) * int(self.unit_price)
+
         self.var1.set("Unit Price:" + str(self.unit_price))
         self.var2.set("Quantity:" + str(self.quantity))
-        self.var3.set("Total Price:" + str(self.quantity*self.unit_price))
-        if self.quantity*self.unit_price >= 2000:
+        self.var3.set("Total Price:" + str(total_price))
+
+        if total_price >= self.amazon_limit:
             self.add_button['state']=tk.NORMAL
 
     def addItem(self):
+        self.updateItemFromEntry()
         self.controller.download(self.img_url,self.product_name)
         self.controller.closeDriver()
 
@@ -81,3 +93,9 @@ class AddItemView(tk.Frame):
         self.csvController.appendItemToCSV(item)
 
         self.parent.changepage("MainUI")
+
+
+    def updateItemFromEntry(self):
+        self.product_name = self.name_entry.get()
+        self.weight_goal = self.weight_entry.get()
+        self.quantity = self.quantity_entry.get()
