@@ -41,8 +41,9 @@ def main():
     min_stock = 3
     water_sensor = Sensor( item, weight, min_stock )
     for _ in range( 5 ): # while True:
-        # measure = random.randrange( 1000, 3000, 1 )
-        measure = measure2data( "ST, +00231.35, g" ) # output from sensor
+        # measure : output from sensor
+        measure = random.randrange( 1000, 3000, 1 )
+        # measure = measure2data( "ST, +00231.35, g" )
         if water_sensor.stockcheck( measure ):
             print( str( measure ) + "\tOrdered" )
         else:
