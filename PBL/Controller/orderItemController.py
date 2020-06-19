@@ -55,7 +55,11 @@ class OrderItemController:
             self.naviguate_by_id("sc-buy-box-ptc-button")
         except TimeoutException:
             self.naviguate(checkout_button_xpath,alternate_xpath)
+
         self.login()
+
+        standard_shipping_radio_button = "//*[@id='spc-orders']/div/div/div[3]/div/div/div[2]/div[2]/div[1]/fieldset/div[1]/input"
+        self.naviguate(standard_shipping_radio_button)
 
 
     def naviguate(self,xpath,alternative_xpath=None):
@@ -78,6 +82,7 @@ class OrderItemController:
         email_entry_xpath = "//*[@id='ap_email']"
         #amazon_id = os.environ.get('AMAZON_ID')
         amazon_id = "pblunit1@gmail.com"
+
         WebDriverWait(self.driver,10).until(EC.presence_of_element_located((By.XPATH,email_entry_xpath)))
         email_entry = self.driver.find_element_by_xpath(email_entry_xpath).send_keys(amazon_id)
 
