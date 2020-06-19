@@ -32,7 +32,11 @@ class AddItemView(tk.Frame):
         self.weight_entry = tk.Entry(name_frame,bd=2, width=40)
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
-        self.add_button = tk.Button(button_frame, text="Done", borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
+        self.fetchInfo_button = tk.Button(button_frame, text="Get Item Info", borderwidth=7, font=("Arial", 13), width=10,
+                                    height=2, command=self.fetchItemInfo)
+        self.fetchInfo_button.pack(side=tk.RIGHT, padx=30, pady=10)
+
+        self.add_button = tk.Button(button_frame, text="Finalize", borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
         self.add_button.pack(side=tk.RIGHT,padx=30,pady=10)
 
         self.url_label = tk.Label(text_frame, text="Amazon URL", borderwidth=7,font=("Arial",12)).pack(side=tk.LEFT,padx=25)
@@ -42,22 +46,25 @@ class AddItemView(tk.Frame):
         self.url_text.configure(highlightbackground="black")
         text_frame.grid_propagate(False)
 
-    def addItem(self):
+
+    def fetchItemInfo(self):
         self.controller = Controller()
-        product_name = self.name_entry.get()
-        weight_goal = self.weight_entry.get()
-        item_status = "Inactive"
-        amazon_url = self.url_text.get("1.0","end-1c")
-        img_url = self.controller.getImage(amazon_url)
-        unit_price = self.controller.getItemPrice()
-        quantity = self.quantity_entry.get()
+        self.product_name = self.name_entry.get()
+        self.weight_goal = self.weight_entry.get()
+        self.item_status = "Inactive"
+        self.amazon_url = self.url_text.get("1.0","end-1c")
+        self.img_url = self.controller.getImage(self.amazon_url)
+        self.unit_price = self.controller.getItemPrice()
+        self.quantity = self.quantity_entry.get()
+        self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name)
 
-        self.controller.download(img_url,product_name)
 
-        imgPath = os.path.join(self.controller.imagesFolder, product_name)
+    def addItem(self):
+        self.controller.download(self.img_url,self.product_name)
         self.controller.closeDriver()
 
-        item = Item(product_name,weight_goal,unit_price,quantity,item_status,amazon_url,imgPath)
+        item = Item(self.product_name,self.weight_goal,self.unit_price,self.quantity,self.item_status,self.amazon_url,
+                    self.imgPath)
         self.csvController = CsvController()
         self.csvController.appendItemToCSV(item)
 
