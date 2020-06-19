@@ -24,19 +24,26 @@ class AddItemView(tk.Frame):
         button_frame.grid(row=2,column=1,sticky="nsew")
 
 
-        self.name_label = tk.Label(name_frame, text="Item Name", borderwidth=7,font=("Arial",12)).grid(row=0,column=0,padx=20,pady=10)
+        self.name_label = tk.Label(name_frame, text="Item Name", borderwidth=7,font=("Arial",12)).grid(row=0,column=0,padx=20,pady=5)
         self.name_entry = tk.Entry(name_frame, bd=2, width=40)
         self.name_entry.grid(row=0,column=1,padx=20,pady=10)
 
-        self.weight_label = tk.Label(name_frame, text="Desired Weight", borderwidth=7, font=("Arial",12)).grid(row=1,column=0,padx=20,pady=10)
+        self.weight_label = tk.Label(name_frame, text="Desired Weight", borderwidth=7, font=("Arial",12)).grid(row=1,column=0,padx=20,pady=5)
         self.weight_entry = tk.Entry(name_frame,bd=2, width=40)
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
+<<<<<<< Updated upstream
         self.fetchInfo_button = tk.Button(button_frame, text="Get Item Info", borderwidth=7, font=("Arial", 13), width=10,
                                     height=2, command=self.fetchItemInfo)
         self.fetchInfo_button.pack(side=tk.RIGHT, padx=30, pady=10)
 
         self.add_button = tk.Button(button_frame, text="Finalize", borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
+=======
+        self.quantity_label = tk.Label(name_frame, text="Quantity", borderwidth=7,font=("Arial",12)).grid(row=2,column=0,padx=20,pady=5)
+        self.quantity_entry = tk.Entry(name_frame, bd=2, width=40).grid(row=2,column=1,padx=20,pady=10)
+
+        self.add_button = tk.Button(button_frame, text="Done", borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
+>>>>>>> Stashed changes
         self.add_button.pack(side=tk.RIGHT,padx=30,pady=10)
 
         self.url_label = tk.Label(text_frame, text="Amazon URL", borderwidth=7,font=("Arial",12)).pack(side=tk.LEFT,padx=25)
@@ -69,5 +76,3 @@ class AddItemView(tk.Frame):
         self.csvController.appendItemToCSV(item)
 
         self.parent.changepage("MainUI")
-
-
