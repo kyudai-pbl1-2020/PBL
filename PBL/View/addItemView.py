@@ -32,7 +32,8 @@ class AddItemView(tk.Frame):
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
         self.quantity_label = tk.Label(name_frame, text="Quantity", borderwidth=7,font=("Arial",12)).grid(row=2,column=0,padx=20,pady=5)
-        self.quantity_entry = tk.Entry(name_frame, bd=2, width=20).grid(row=2,column=1,padx=20,pady=10)
+        self.quantity_entry = tk.Entry(name_frame, bd=2, width=20)
+        self.quantity_entry.grid(row=2,column=1,padx=20,pady=10)
 
         self.var1 = tk.StringVar()
         self.var2 = tk.StringVar()
