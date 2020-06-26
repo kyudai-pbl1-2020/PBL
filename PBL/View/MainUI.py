@@ -1,6 +1,4 @@
 import tkinter as tk
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 
 class MainUI(tk.Frame):
 
