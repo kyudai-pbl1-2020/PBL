@@ -1,12 +1,20 @@
 import socket
+import subprocess
 
 
-def format_data(weight):
-    if weight:
-        formatted = "Current weight is " + str(weight) + "g"
-        print(formatted)
-        return formatted
+def format_sensor_data(data):
+    # example input: "US,+00418.53,  g"
+    if data:
+        weight = data.split(",")[1]
+        weight = data[1:]
+        print("Current weight is " + str(weight) + "g")
+        return weight
 
+
+def query_sensor():
+    kermit_process = subprocess.Popen(["./RefactoringMiner", "-a", project_path, "master"],
+                                  stdout=subprocess.PIPE, cwd=)
+    output = kermit_process.communicate()[0]
 
 
 def run_server(server_ip=socket.gethostname(), server_port=80):
@@ -25,14 +33,12 @@ def run_server(server_ip=socket.gethostname(), server_port=80):
 
                 if str(data) == "Data_Request":
 
-                    print("Ok Sending data.")
+                    print("Reading weight from sensor...")
+                    sensor_output = query_sensor()
+                    current_weight = format_sensor_data(sensor_output)
+                    print("Ok. Sending data.")
 
-                    my_data = "Some Test data: US,+00418.53,  g"
-
-                    print("Sending test data: " + str(my_data))
-
-                    encoded_data = my_data.encode('utf-8')
-
+                    encoded_data = current_weight.encode('utf-8')
                     conn.sendall(encoded_data)
 
                 if not data:
@@ -42,7 +48,8 @@ def run_server(server_ip=socket.gethostname(), server_port=80):
 
 
 def main():
-    run_server()
+    while True:
+        run_server()
 
 
 if __name__ == '__main__':
