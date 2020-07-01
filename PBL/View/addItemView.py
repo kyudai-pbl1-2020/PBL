@@ -34,8 +34,9 @@ class AddItemView(tk.Frame):
         self.weight_entry = tk.Entry(name_frame,bd=2, width=20)
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
-        self.quantity_label = tk.Label(name_frame, text="Quantity", borderwidth=7,font=("Arial",12)).grid(row=2,column=0,padx=20,pady=5)
-        self.quantity_entry = tk.Entry(name_frame, bd=2, width=20)
+        self.quantity_label = tk.Label(name_frame, text="Quantity", state="disable",borderwidth=7,font=("Arial",12))
+        self.quantity_label.grid(row=2,column=0,padx=20,pady=5)
+        self.quantity_entry = tk.Entry(name_frame, state="disable", bd=2, width=20)
         self.quantity_entry.grid(row=2,column=1,padx=20,pady=10)
 
         self.var1 = tk.StringVar()
@@ -70,17 +71,20 @@ class AddItemView(tk.Frame):
         self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name)
 
         self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
+        self.quantity_label['state'] = "normal"
+        self.quantity_entry['state'] = "normal"
         self.quantity_entry.delete(0,tk.END)
         self.quantity_entry.insert(0,self.quantity)
 
         total_price = int(self.quantity) * int(self.unit_price)
 
         self.var1.set("Unit Price:" + str(self.unit_price))
-        self.var2.set("Quantity:" + str(self.quantity))
+        self.var2.set("Minimum Quantity:" + str(self.quantity))
         self.var3.set("Total Price:" + str(total_price))
 
         if total_price >= self.amazon_limit:
             self.add_button['state']=tk.NORMAL
+
 
     def addItem(self):
         self.updateItemFromEntry()
