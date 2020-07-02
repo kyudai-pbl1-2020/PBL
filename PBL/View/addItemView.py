@@ -96,11 +96,12 @@ class AddItemView(tk.Frame):
         if self.total_price >= self.amazon_limit:
             self.add_button['state']=tk.NORMAL
 
+        self.controller.closeDriver()
+
 
     def addItem(self):
         self.updateItemFromEntry()
         self.controller.download(self.img_url,self.product_name)
-        self.controller.closeDriver()
 
         item = Item(self.product_name,self.weight_goal,self.unit_price,self.quantity,self.item_status,self.amazon_url,
                     self.imgPath)
