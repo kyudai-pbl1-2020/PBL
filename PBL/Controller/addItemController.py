@@ -6,6 +6,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.select import Select
+
 from selenium.webdriver.chrome.options import Options
 #https://stackoverflow.com/questions/16180428/can-selenium-webdriver-open-browser-windows-silently-in-background
 
@@ -60,6 +63,40 @@ class Controller:
         item_price = item_price[1:]
         print(item_price)
         return item_price
+
+
+    def getQuantities(self):
+        # Click on one time purchase box
+        one_time_purchase_div_xpath = "//*[@id='newAccordionRow']"
+        one_time_purchase_alternate_xpath = "//*[@id='oneTimeBuyBox']"
+
+        try:
+            self.naviguate(one_time_purchase_div_xpath, one_time_purchase_alternate_xpath)
+        except TimeoutException:
+            one_time_purchase_button = self.driver.find_element_by_id("oneTimeBuyBox").click()
+
+        # Select quantity from dropdown menu
+        quantity_dropdown_menu_xpath = "//*[@id='quantity']"
+        dropdown_menu = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+            (By.XPATH, quantity_dropdown_menu_xpath)))
+
+        options_element = [x for x in dropdown_menu.find_elements_by_tag_name("option")]
+        options = []
+        for element in options_element:
+            options.append(element.get_attribute("value"))
+
+        return options
+
+
+    def naviguate(self,xpath,alternative_xpath=None):
+        try:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+                (By.XPATH, xpath)))
+            self.driver.find_element_by_xpath(xpath).click()
+        except TimeoutException:
+            WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+                (By.XPATH, xpath)))
+            self.driver.find_element_by_xpath(alternative_xpath).click()
 
 
 # if __name__ == "__main__":
