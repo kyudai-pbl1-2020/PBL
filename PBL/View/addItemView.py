@@ -17,46 +17,54 @@ class AddItemView(tk.Frame):
         self.grid_columnconfigure(0, weight=1)
         self.grid_columnconfigure(2, weight=1)# as did this
 
-        name_frame = tk.Frame(self)#,background="red")
-        name_frame.grid(row=0,column=1,pady=10,sticky="nsew")
+        self.name_frame = tk.Frame(self)#,background="red")
+        self.name_frame.grid(row=0,column=1,pady=10,sticky="nsew")
 
-        text_frame = tk.Frame(self)#,background="blue")
-        text_frame.grid(row=1,column=1,pady=5,sticky="nswe")
+        self.text_frame = tk.Frame(self)#,background="blue")
+        self.text_frame.grid(row=1,column=1,pady=5,sticky="nswe")
 
-        button_frame = tk.Frame(self)#,background="green")
-        button_frame.grid(row=2,column=1,sticky="nsew")
+        self.button_frame = tk.Frame(self)#,background="green")
+        self.button_frame.grid(row=2,column=1,sticky="nsew")
 
-        self.name_label = tk.Label(name_frame, text="Item Name", borderwidth=7,font=("Arial",12)).grid(row=0,column=0,padx=20,pady=5)
-        self.name_entry = tk.Entry(name_frame, bd=2, width=20)
+        self.name_label = tk.Label(self.name_frame, text="Item Name", borderwidth=7,font=("Arial",12)).grid(row=0,column=0,padx=20,pady=5)
+        self.name_entry = tk.Entry(self.name_frame, bd=2, width=20)
         self.name_entry.grid(row=0,column=1,padx=20,pady=10)
 
-        self.weight_label = tk.Label(name_frame, text="Desired Weight", borderwidth=7, font=("Arial",12)).grid(row=1,column=0,padx=20,pady=5)
-        self.weight_entry = tk.Entry(name_frame,bd=2, width=20)
+        self.weight_label = tk.Label(self.name_frame, text="Desired Weight", borderwidth=7, font=("Arial",12)).grid(row=1,column=0,padx=20,pady=5)
+        self.weight_entry = tk.Entry(self.name_frame,bd=2, width=20)
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
-        self.quantity_label = tk.Label(name_frame, text="Quantity", borderwidth=7,font=("Arial",12)).grid(row=2,column=0,padx=20,pady=5)
-        self.quantity_entry = tk.Entry(name_frame, bd=2, width=20)
-        self.quantity_entry.grid(row=2,column=1,padx=20,pady=10)
 
-        self.var1 = tk.StringVar()
-        self.var2 = tk.StringVar()
-        self.var3 = tk.StringVar()
-        self.info_label = tk.Label(name_frame, textvariable=self.var1, width=15,font=("Arial",11)).grid(row=0,column=2)
-        self.info_label = tk.Label(name_frame, textvariable=self.var2, width=15,font=("Arial",11)).grid(row=1,column=2)
-        self.info_label = tk.Label(name_frame, textvariable=self.var3, width=15,font=("Arial",11)).grid(row=2,column=2)
+        self.strVar = tk.StringVar(self.parent)
+        self.menuOptions = [""]
+        self.strVar.set(self.menuOptions[0])
+        self.quantity_label = tk.Label(self.name_frame, text="Quantity", borderwidth=7, font=("Arial", 12)).grid(row=2,
+                                                                                                                 column=0,
+                                                                                                                 padx=20,
+                                                                                                                 pady=5)
+        self.quantity_dropdown = tk.OptionMenu(self.name_frame, self.strVar, *self.menuOptions)
+        self.quantity_dropdown.grid(row=2, column=1, padx=20, pady=10)
+        self.quantity_dropdown.configure(state="disabled")
 
-        self.fetchInfo_button = tk.Button(button_frame, text="Item Info", borderwidth=7, font=("Arial", 13), width=10,height=2, command=self.fetchItemInfo)
+        self.unitPrice_label = tk.StringVar()
+        self.minQuantity_label = tk.StringVar()
+        self.totalPrice_label = tk.StringVar()
+        self.info_label = tk.Label(self.name_frame, textvariable=self.unitPrice_label, width=15,font=("Arial",11)).grid(row=0,column=2)
+        self.info_label = tk.Label(self.name_frame, textvariable=self.minQuantity_label, width=15,font=("Arial",11)).grid(row=1,column=2)
+        self.info_label = tk.Label(self.name_frame, textvariable=self.totalPrice_label, width=15,font=("Arial",11)).grid(row=2,column=2)
+
+        self.fetchInfo_button = tk.Button(self.button_frame, text="Item Info", borderwidth=7, font=("Arial", 13), width=10,height=2, command=self.fetchItemInfo)
         self.fetchInfo_button.pack(side=tk.LEFT, padx=100, pady=10)
 
-        self.add_button = tk.Button(button_frame, text="Done", state=tk.DISABLED, borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
+        self.add_button = tk.Button(self.button_frame, text="Done", state=tk.DISABLED, borderwidth=7,font=("Arial",13), width=10,height=2, command=self.addItem)
         self.add_button.pack(side=tk.RIGHT,padx=30,pady=10)
 
-        self.url_label = tk.Label(text_frame, text="Amazon URL", borderwidth=7,font=("Arial",12)).pack(side=tk.LEFT,padx=25)
-        self.url_text = tk.Text(text_frame,borderwidth=1,width=40,height=15)
+        self.url_label = tk.Label(self.text_frame, text="Amazon URL", borderwidth=7,font=("Arial",12)).pack(side=tk.LEFT,padx=25)
+        self.url_text = tk.Text(self.text_frame,borderwidth=1,width=40,height=15)
         self.url_text.pack(side=tk.RIGHT,padx=30)
 
         self.url_text.configure(highlightbackground="black")
-        text_frame.grid_propagate(False)
+        self.text_frame.grid_propagate(False)
 
 
     def fetchItemInfo(self):
@@ -69,18 +77,25 @@ class AddItemView(tk.Frame):
         self.unit_price = self.controller.getItemPrice()
         self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name)
 
+        #Get valid quantities from amazon dropdown menu and activate dropdown menu
+        dropdown_options = self.controller.getQuantities()
         self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
-        self.quantity_entry.delete(0,tk.END)
-        self.quantity_entry.insert(0,self.quantity)
+        self.min_quantity = self.quantity
+        dropdown_options = [value for value in dropdown_options if int(value) >= self.min_quantity]
+        self.menuOptions = dropdown_options
+        self.updateDropDownValues()
 
-        total_price = int(self.quantity) * int(self.unit_price)
+        self.total_price = int(self.quantity) * int(self.unit_price)
 
-        self.var1.set("Unit Price:" + str(self.unit_price))
-        self.var2.set("Quantity:" + str(self.quantity))
-        self.var3.set("Total Price:" + str(total_price))
+        self.unitPrice_label.set("Unit Price:" + str(self.unit_price))
+        self.minQuantity_label.set("Minimum Quantity:" + str(self.quantity))
+        self.totalPrice_label.set("Total Price:" + str(self.total_price))
 
-        if total_price >= self.amazon_limit:
+        self.strVar.trace("w",self.OptionMenu_SelectionEvent)
+
+        if self.total_price >= self.amazon_limit:
             self.add_button['state']=tk.NORMAL
+
 
     def addItem(self):
         self.updateItemFromEntry()
@@ -98,4 +113,22 @@ class AddItemView(tk.Frame):
     def updateItemFromEntry(self):
         self.product_name = self.name_entry.get()
         self.weight_goal = self.weight_entry.get()
-        self.quantity = self.quantity_entry.get()
+        self.quantity = int(self.strVar.get())
+
+
+    def updateDropDownValues(self):
+        menu = self.quantity_dropdown["menu"]
+        menu.delete(0,"end")
+
+        for string in self.menuOptions:
+            menu.add_command(label=string,
+                             command=lambda value=string: self.strVar.set(value))
+
+        self.quantity_dropdown.configure(state="active")
+        self.strVar.set(self.menuOptions[0])
+
+
+    def OptionMenu_SelectionEvent(self,*args):
+            self.quantity = self.strVar.get()
+            self.total_price = int(self.quantity) * int(self.unit_price)
+            self.totalPrice_label.set("Total Price:" + str(self.total_price))
