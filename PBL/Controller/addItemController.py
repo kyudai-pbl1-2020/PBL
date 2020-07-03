@@ -69,16 +69,24 @@ class Controller:
         # Click on one time purchase box
         one_time_purchase_div_xpath = "//*[@id='newAccordionRow']"
         one_time_purchase_alternate_xpath = "//*[@id='oneTimeBuyBox']"
-
+        dropdown_menu = None
         try:
             self.naviguate(one_time_purchase_div_xpath, one_time_purchase_alternate_xpath)
         except TimeoutException:
-            one_time_purchase_button = self.driver.find_element_by_id("oneTimeBuyBox").click()
+            try:
+                one_time_purchase_button = self.driver.find_element_by_id("oneTimeBuyBox").click()
+            except:
+                #Sometimes there are no boxes to click, the menu is already visible
+                quantity_dropdown_menu_xpath = "//*[@id='quantity']"
+                dropdown_menu = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+                    (By.XPATH, quantity_dropdown_menu_xpath)))
 
-        # Select quantity from dropdown menu
-        quantity_dropdown_menu_xpath = "//*[@id='quantity']"
-        dropdown_menu = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
-            (By.XPATH, quantity_dropdown_menu_xpath)))
+
+        if not dropdown_menu:
+            # Select quantity from dropdown menu
+            quantity_dropdown_menu_xpath = "//*[@id='quantity']"
+            dropdown_menu = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(
+                (By.XPATH, quantity_dropdown_menu_xpath)))
 
         options_element = [x for x in dropdown_menu.find_elements_by_tag_name("option")]
         options = []

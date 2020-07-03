@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 import os
 import math
 
@@ -34,7 +35,6 @@ class AddItemView(tk.Frame):
         self.weight_entry = tk.Entry(self.name_frame,bd=2, width=20)
         self.weight_entry.grid(row=1,column=1,padx=20,pady=10)
 
-
         self.strVar = tk.StringVar(self.parent)
         self.menuOptions = [""]
         self.strVar.set(self.menuOptions[0])
@@ -42,9 +42,9 @@ class AddItemView(tk.Frame):
                                                                                                                  column=0,
                                                                                                                  padx=20,
                                                                                                                  pady=5)
-        self.quantity_dropdown = tk.OptionMenu(self.name_frame, self.strVar, *self.menuOptions)
+        self.quantity_dropdown = ttk.Combobox(self.name_frame, values=self.menuOptions,textvariable=self.strVar)
         self.quantity_dropdown.grid(row=2, column=1, padx=20, pady=10)
-        self.quantity_dropdown.configure(state="disabled")
+        self.quantity_dropdown.configure(state="readonly")
 
         self.unitPrice_label = tk.StringVar()
         self.minQuantity_label = tk.StringVar()
@@ -77,12 +77,17 @@ class AddItemView(tk.Frame):
         self.unit_price = self.controller.getItemPrice()
         self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name)
 
+        #If unit_price is a float
+        if ',' in self.unit_price:
+            self.unit_price = self.unit_price.replace(',','')
+
         #Get valid quantities from amazon dropdown menu and activate dropdown menu
         dropdown_options = self.controller.getQuantities()
         self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
         self.min_quantity = self.quantity
         dropdown_options = [value for value in dropdown_options if int(value) >= self.min_quantity]
         self.menuOptions = dropdown_options
+
         self.updateDropDownValues()
 
         self.total_price = int(self.quantity) * int(self.unit_price)
@@ -91,10 +96,13 @@ class AddItemView(tk.Frame):
         self.minQuantity_label.set("Minimum Quantity:" + str(self.quantity))
         self.totalPrice_label.set("Total Price:" + str(self.total_price))
 
-        self.strVar.trace("w",self.OptionMenu_SelectionEvent)
+        self.strVar.trace("w",self.comboBox_SelectionEvent)
 
         if self.total_price >= self.amazon_limit:
             self.add_button['state']=tk.NORMAL
+
+        else:
+            self.add_button['state'] = tk.DISABLED
 
         self.controller.closeDriver()
 
@@ -118,18 +126,12 @@ class AddItemView(tk.Frame):
 
 
     def updateDropDownValues(self):
-        menu = self.quantity_dropdown["menu"]
-        menu.delete(0,"end")
-
-        for string in self.menuOptions:
-            menu.add_command(label=string,
-                             command=lambda value=string: self.strVar.set(value))
-
-        self.quantity_dropdown.configure(state="active")
+        self.quantity_dropdown["values"] = self.menuOptions
         self.strVar.set(self.menuOptions[0])
+        self.quantity_dropdown.configure(state="normal")
 
 
-    def OptionMenu_SelectionEvent(self,*args):
+    def comboBox_SelectionEvent(self, *args):
             self.quantity = self.strVar.get()
             self.total_price = int(self.quantity) * int(self.unit_price)
             self.totalPrice_label.set("Total Price:" + str(self.total_price))
