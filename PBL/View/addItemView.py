@@ -49,9 +49,12 @@ class AddItemView(tk.Frame):
         self.unitPrice_label = tk.StringVar()
         self.minQuantity_label = tk.StringVar()
         self.totalPrice_label = tk.StringVar()
-        self.info_label = tk.Label(self.name_frame, textvariable=self.unitPrice_label, width=15,font=("Arial",11)).grid(row=0,column=2)
-        self.info_label = tk.Label(self.name_frame, textvariable=self.minQuantity_label, width=15,font=("Arial",11)).grid(row=1,column=2)
-        self.info_label = tk.Label(self.name_frame, textvariable=self.totalPrice_label, width=15,font=("Arial",11)).grid(row=2,column=2)
+
+        self.top_label = tk.Label(self.name_frame, textvariable=self.unitPrice_label, width=15,font=("Arial",11)).grid(row=0,column=2)
+        self.middle_label = tk.Label(self.name_frame, textvariable=self.minQuantity_label, width=15,font=("Arial",11))
+        self.middle_label.grid(row=1,column=2)
+        self.bottom_label = tk.Label(self.name_frame, textvariable=self.totalPrice_label, width=15,font=("Arial",11)).grid(row=2,column=2)
+
 
         self.fetchInfo_button = tk.Button(self.button_frame, text="Item Info", borderwidth=7, font=("Arial", 13), width=10,height=2, command=self.fetchItemInfo)
         self.fetchInfo_button.pack(side=tk.LEFT, padx=100, pady=10)
@@ -83,26 +86,33 @@ class AddItemView(tk.Frame):
 
         #Get valid quantities from amazon dropdown menu and activate dropdown menu
         dropdown_options = self.controller.getQuantities()
+        print(dropdown_options)
         self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
         self.min_quantity = self.quantity
         dropdown_options = [value for value in dropdown_options if int(value) >= self.min_quantity]
         self.menuOptions = dropdown_options
 
-        self.updateDropDownValues()
-
-        self.total_price = int(self.quantity) * int(self.unit_price)
-
-        self.unitPrice_label.set("Unit Price:" + str(self.unit_price))
-        self.minQuantity_label.set("Minimum Quantity:" + str(self.quantity))
-        self.totalPrice_label.set("Total Price:" + str(self.total_price))
-
-        self.strVar.trace("w",self.comboBox_SelectionEvent)
-
-        if self.total_price >= self.amazon_limit:
-            self.add_button['state']=tk.NORMAL
+        if not dropdown_options:
+            self.displayErrorMessage()
 
         else:
-            self.add_button['state'] = tk.DISABLED
+            self.middle_label.configure(fg="black")
+
+            self.updateDropDownValues()
+
+            self.total_price = int(self.quantity) * int(self.unit_price)
+
+            self.unitPrice_label.set("Unit Price:" + str(self.unit_price))
+            self.minQuantity_label.set("Minimum Quantity:" + str(self.quantity))
+            self.totalPrice_label.set("Total Price:" + str(self.total_price))
+
+            self.strVar.trace("w",self.comboBox_SelectionEvent)
+
+            if self.total_price >= self.amazon_limit:
+                self.add_button['state']=tk.NORMAL
+
+            else:
+                self.add_button['state'] = tk.DISABLED
 
         self.controller.closeDriver()
 
@@ -135,3 +145,10 @@ class AddItemView(tk.Frame):
             self.quantity = self.strVar.get()
             self.total_price = int(self.quantity) * int(self.unit_price)
             self.totalPrice_label.set("Total Price:" + str(self.total_price))
+
+
+    def displayErrorMessage(self):
+        self.unitPrice_label.set("")
+        self.totalPrice_label.set("")
+        self.minQuantity_label.set("The maximum quantity of this item is not sufficient to make an order of 2000¥ or more.")
+        self.middle_label.configure(fg="red")
