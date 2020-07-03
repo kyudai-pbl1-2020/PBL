@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 import os
 import math
 
@@ -148,7 +149,4 @@ class AddItemView(tk.Frame):
 
 
     def displayErrorMessage(self):
-        self.unitPrice_label.set("")
-        self.totalPrice_label.set("")
-        self.minQuantity_label.set("The maximum quantity of this item is not sufficient to make an order of 2000¥ or more.")
-        self.middle_label.configure(fg="red")
+        tk.messagebox.showerror(title="error", message="The maximum quantity of this item is not sufficient to make an order of 2000¥ or more. Please select a different item.")
