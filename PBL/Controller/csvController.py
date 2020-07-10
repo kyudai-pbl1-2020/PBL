@@ -1,11 +1,11 @@
 import os
 import csv
-from application import resourcesFolder as resourcesPath
+from PBL import application
 
 
 class CsvController():
     def __init__(self):
-        self.csvfile = os.path.join(resourcesPath,'items.csv')
+        self.csvfile = os.path.join(application.resourcesFolder,'items.csv')
 
     def appendItemToCSV(self,item):
         if os.path.exists(self.csvfile):
@@ -29,7 +29,8 @@ class CsvController():
         with open(self.csvfile,newline='') as file:
             for row in file:
                 item = {}
-                data = row.split(',')
+                print(row)
+                data = row.split(' ')
                 item['name'] = data[0]
                 item['weight'] = data[1]
                 item['unit_price'] = data[2]

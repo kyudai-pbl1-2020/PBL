@@ -1,5 +1,5 @@
 import tkinter as tk
-from Controller.csvController import CsvController
+from PBL.Controller import csvController
 
 class MainUI(tk.Frame):
 
@@ -8,11 +8,10 @@ class MainUI(tk.Frame):
         self.grid()
         label = tk.Label(self, text="Start Page")
         label.grid(row = 0,column = 2)
-        self.csvController = CsvController()
+        self.csvController = csvController.CsvController()
         self.loadItemData()
 
 
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
-        print(itemList)
