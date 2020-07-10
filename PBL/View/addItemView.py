@@ -94,6 +94,7 @@ class AddItemView(tk.Frame):
         self.menuOptions = dropdown_options
 
         if not dropdown_options:
+            self.controller.closeDriver()
             self.displayErrorMessage()
 
         else:
@@ -115,7 +116,7 @@ class AddItemView(tk.Frame):
             else:
                 self.add_button['state'] = tk.DISABLED
 
-        self.controller.closeDriver()
+            self.controller.closeDriver()
 
 
     def addItem(self):
