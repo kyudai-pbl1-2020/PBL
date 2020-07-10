@@ -20,9 +20,8 @@ class CredentialView(tk.Frame):
         self.pw_box = tk.Entry()
         self.pw_box.place(x=150, y=150)
 
-        self.button = tk.Button(text="DONE")
+        self.button = tk.Button(text="DONE", command=self.getInfo)
         self.button.place(x=175, y=200)
-        self.button.bind("<Button-1>", self.getInfo)
 
 
     def getInfo(self ):
@@ -30,4 +29,5 @@ class CredentialView(tk.Frame):
         pw_value = self.pw_box.get()
         user_ctrl = UserController()
         user_ctrl.setUserInformation( id_value, pw_value )
+        # print( user_ctrl.getUserInformation() ) # for test
         return
