@@ -29,7 +29,6 @@ class CsvController():
         with open(self.csvfile,newline='') as file:
             for row in file:
                 item = {}
-                print(row)
                 data = row.split(' ')
                 item['name'] = data[0]
                 item['weight'] = data[1]
