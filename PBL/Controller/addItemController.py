@@ -12,11 +12,11 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.chrome.options import Options
 #https://stackoverflow.com/questions/16180428/can-selenium-webdriver-open-browser-windows-silently-in-background
 
-from application import resourcesFolder as resourcesPath
+from PBL import application
 
 class Controller:
     def __init__(self):
-        self.imagesFolder = os.path.join(resourcesPath, 'images')#PBL/Resources/images
+        self.imagesFolder = os.path.join(application.resourcesFolder, 'images')#PBL/Resources/images
         self.createDriver()
 
     def createDriver(self):
