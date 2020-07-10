@@ -7,6 +7,7 @@ class CsvController():
     def __init__(self):
         self.csvfile = os.path.join(application.resourcesFolder,'items.csv')
 
+
     def appendItemToCSV(self,item):
         if os.path.exists(self.csvfile):
             filemode = 'a'
@@ -26,6 +27,10 @@ class CsvController():
         #name weight unit_price quantity status amazon_url img
 
         itemList = []
+
+        if not os.path.exists(self.csvfile):
+            return itemList
+
         with open(self.csvfile,newline='') as file:
             for row in file:
                 item = {}
