@@ -1,6 +1,9 @@
 import tkinter as tk
-from View.addItemView import *
-from View.MainUI import *
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from PBL.View import addItemView
+from PBL.View import MainUI
 
 resourcesFolder = os.path.join(os.getcwd(), 'Resources')
 
@@ -18,7 +21,7 @@ class Application(tk.Tk):
         self.title("PBL 1 Application")
         self.addMenu()
         #MainUI(self)
-        AddItemView(self)
+        addItemView.AddItemView(self)
 
     def addMenu(self):
         self.menu = tk.Menu()
@@ -33,9 +36,9 @@ class Application(tk.Tk):
         for widget in self.winfo_children():
             widget.destroy()
         if viewName == "MainUI":
-            MainUI(self)
+            MainUI.MainUI(self)
         elif viewName == "AddItem":
-            AddItemView(self)
+            addItemView.AddItemView(self)
 
         self.addMenu()
 

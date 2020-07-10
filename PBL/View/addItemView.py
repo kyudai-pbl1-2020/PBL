@@ -4,9 +4,10 @@ from tkinter import messagebox
 import os
 import math
 
-from Controller.addItemController import Controller
-from Controller.csvController import CsvController
-from Model.item import Item
+from PBL.Controller import addItemController
+from PBL.Controller import csvController
+from PBL.Model.item import Item
+
 
 class AddItemView(tk.Frame):
 
@@ -72,7 +73,7 @@ class AddItemView(tk.Frame):
 
 
     def fetchItemInfo(self):
-        self.controller = Controller()
+        self.controller = addItemController.Controller()
         self.product_name = self.name_entry.get()
         self.weight_goal = self.weight_entry.get()
         self.item_status = "Inactive"
@@ -125,7 +126,7 @@ class AddItemView(tk.Frame):
 
         item = Item(self.product_name,self.weight_goal,self.unit_price,self.quantity,self.item_status,self.amazon_url,
                     self.imgPath)
-        self.csvController = CsvController()
+        self.csvController = csvController.CsvController()
         self.csvController.appendItemToCSV(item)
 
         self.parent.changepage("MainUI")

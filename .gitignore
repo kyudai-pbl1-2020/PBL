@@ -2,4 +2,4 @@
 PBL/.DS_Store
 PBL/Resources/
 PBL/venv_pbl/
-*_pycache_*
+__pycache__/
