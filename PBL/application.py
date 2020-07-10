@@ -4,6 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from PBL.View import addItemView
 from PBL.View import MainUI
+from PBL.View import credentialView
 
 resourcesFolder = os.path.join(os.getcwd(), 'Resources')
 
@@ -30,6 +31,7 @@ class Application(tk.Tk):
         self.menu.add_cascade(label="File", menu=self.subMenu)  # Main Menu
         self.subMenu.add_command(label="Main Menu", command=lambda: self.changepage("MainUI"))
         self.subMenu.add_command(label="Add Item Page", command=lambda: self.changepage("AddItem"))
+        self.subMenu.add_command(label="Edit Amazon Credentials", command=lambda: self.changepage("Credentials"))
         self.subMenu.add_command(label="Quit", command=self.quit)
 
     def changepage(self,viewName):
@@ -39,6 +41,8 @@ class Application(tk.Tk):
             MainUI.MainUI(self)
         elif viewName == "AddItem":
             addItemView.AddItemView(self)
+        elif viewName == "Credentials":
+            credentialView.CredentialView(self)
 
         self.addMenu()
 
