@@ -1,73 +1,33 @@
-# import os
-
-# class UserController():
-#     def __init__( self, id=None, pw=None):
-#         self.userid = id
-#         self.userpw = pw
-
-
-#     def setUserInformation( self, id, pw ):
-#         self.userid = id
-#         self.userpw = pw
-
-#         # Set environment variables
-#         os.environ["AMAZON_ID"] = self.userid
-#         os.environ["AMAZON_PW"] = self.userpw
-
-
-#     def getUserInformation(self):
-#         # Get environment variables
-#         self.userid = os.getenv("AMAZON_ID")
-#         self.userpw = os.environ.get("AMAZON_PW")
-#         return (self.userid, self.userpw)
-
 import tkinter as tk
-from PBL.View.credentialView import credentialView
 from PBL.Controller.userController import UserController
-import matplotlib
-matplotlib.use( "tkagg" )
 
-class credentialView( tk.Frame ):
-    def __init__( self ):
-        pass
+class CredentialView(tk.Frame):
+    def __init__( self, parent ):
+        tk.LabelFrame.__init__(self, parent,text="Add Item",labelanchor="n",font=("Arial",18),padx=10,pady=6)#,background="white")
+        self.parent = parent
+        self.grid()
 
-    def getIDandPW( self ):
-        root = tk.Tk()
+        self.main_label = tk.Label(text="Enter your Amazon ID/PW")
+        self.main_label.place(x=125, y=50)
 
-        root.title( "Amazon ID/PW" )
-        root.geometry( "400x300" )
+        self.id_label = tk.Label(text="Amazon ID")
+        self.id_label.place(x=50, y=100)
+        self.id_box = tk.Entry()
+        self.id_box.place(x=150, y=100)
 
-        content = tk.Label( text = "Enter your Amazon ID/PW" )
-        # content.pack()
-        content.place( x = 125, y = 50 )
+        self.pw_label = tk.Label(text="Amazon PW")
+        self.pw_label.place(x=50, y=150)
+        self.pw_box = tk.Entry()
+        self.pw_box.place(x=150, y=150)
 
-        id_label = tk.Label( text = "Amazon ID" )
-        id_label.place( x = 50, y = 100 )
-        id_box = tk.Entry()
-        id_box.place( x = 150, y = 100 )
+        self.button = tk.Button(text="DONE")
+        self.button.place(x=175, y=200)
+        self.button.bind("<Button-1>", self.getInfo)
 
-        pw_label = tk.Label( text = "Amazon PW" )
-        pw_label.place( x = 50, y = 150 )
-        pw_box = tk.Entry()
-        pw_box.place( x = 150, y = 150 )
 
-        def getInfo( event ):
-            id_value = id_box.get()
-            pw_value = pw_box.get()
-            user_ctrl = UserController()
-            user_ctrl.setUserInformation( id_value, pw_value )
-            # print( user_ctrl.getUserInformation() )
-            return
-
-        button = tk.Button( text = "DONE" )
-        button.place( x = 175, y = 200 )
-        button.bind( "<Button-1>", getInfo )
-
-        root.mainloop()
-
-def main():
-    creview = credentialView()
-    creview.getIDandPW()
-
-if __name__ == "__main__":
-    main()
+    def getInfo(self ):
+        id_value = self.id_box.get()
+        pw_value = self.pw_box.get()
+        user_ctrl = UserController()
+        user_ctrl.setUserInformation( id_value, pw_value )
+        return
