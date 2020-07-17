@@ -32,6 +32,7 @@ class CsvController():
             return itemList
 
         with open(self.csvfile,newline='') as file:
+            file.readline() #Skip Headers
             for row in file:
                 item = {}
                 data = row.split(' ')
@@ -41,7 +42,7 @@ class CsvController():
                 item['quantity'] = data[3]
                 item['status'] = data[4]
                 item['amazon_url'] = data[5]
-                item['img_path'] = data[6]
+                item['imgPath'] = data[6].rstrip()
 
                 itemList.append(item)
 

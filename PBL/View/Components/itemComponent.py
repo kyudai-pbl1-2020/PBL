@@ -3,7 +3,7 @@ from PIL import ImageTk, Image
 
 class ItemComponent(tk.Frame):
 
-    def __init__(self, parent,imgPath):
+    def __init__(self, parent,item):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.grid()
@@ -27,7 +27,8 @@ class ItemComponent(tk.Frame):
                                     background="light gray")
         self.pic_canvas.grid(row=0, column=1, padx=15, pady=10)
 
-        self.image = Image.open(imgPath)
+        print(item)
+        self.image = Image.open(item['imgPath'])
         self.image = self.image.resize((self.canvas_width,self.canvas_height),Image.ANTIALIAS)
         self.image = ImageTk.PhotoImage(self.image)
         self.pic_canvas.create_image(0,0, anchor="nw", image=self.image)

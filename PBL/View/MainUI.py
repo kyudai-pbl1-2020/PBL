@@ -11,12 +11,12 @@ class MainUI(tk.Frame):
         self.grid()
         #label = tk.Label(self, text="Start Page")
         #label.grid(row = 0,column = 2)
-        testImg = os.path.join(application.resourcesFolder,'images/test3.gif')
-        itemComponent.ItemComponent(self,testImg)
         self.csvController = csvController.CsvController()
-        self.loadItemData()
+        itemList = self.loadItemData()
+        itemComponent.ItemComponent(self, itemList[0])
 
 
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
+        return itemList
