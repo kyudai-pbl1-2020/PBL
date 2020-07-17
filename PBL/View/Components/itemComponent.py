@@ -1,9 +1,9 @@
 import tkinter as tk
-#from PIL import Image
+from PIL import ImageTk, Image
 
 class ItemComponent(tk.Frame):
 
-    def __init__(self, parent):
+    def __init__(self, parent,imgPath):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.grid()
@@ -19,12 +19,23 @@ class ItemComponent(tk.Frame):
         self.status_control = tk.Radiobutton(self.pic_frame, variable = self.status, value=0, command=self.activeItem)
         self.status_control.grid(row=0, column=0, padx=15)
         #
-        #self.image_file = Image.open("")
+        #self.image_file = ImageTk.open("")
         #self.image_file.resize((100,100))
-        self.image_file = tk.PhotoImage(file="")
-        self.pic_canvas = tk.Canvas(self.pic_frame, width=100, height=100, background="light gray")
+        self.canvas_width = 100
+        self.canvas_height= 100
+        self.pic_canvas = tk.Canvas(self.pic_frame, width=self.canvas_width, height=self.canvas_height,
+                                    background="light gray")
         self.pic_canvas.grid(row=0, column=1, padx=15, pady=10)
-        self.pic_canvas.create_image(0,0, anchor="nw", image=self.image_file)
+
+        self.image = Image.open(imgPath)
+        self.image = self.image.resize((self.canvas_width,self.canvas_height),Image.ANTIALIAS)
+        self.image = ImageTk.PhotoImage(self.image)
+        self.pic_canvas.create_image(0,0, anchor="nw", image=self.image)
+
+        self.testlabel = tk.Label(self.pic_canvas)
+        self.testlabel.image = self.image
+        self.testlabel.configure(image=self.image)
+        #self.testlabel.grid(row=1,column=1,padx=15,pady=10)
         #
         self.itemName_label = tk.StringVar()
         self.name_label = tk.Label(self.info_frame, textvariable=self.itemName_label, width=15, font=("Arial",12))

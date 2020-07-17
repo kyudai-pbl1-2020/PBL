@@ -1,7 +1,8 @@
 import tkinter as tk
 from PBL.Controller import csvController
 from .Components import itemComponent
-
+import os
+from PBL import application
 
 class MainUI(tk.Frame):
 
@@ -10,7 +11,8 @@ class MainUI(tk.Frame):
         self.grid()
         #label = tk.Label(self, text="Start Page")
         #label.grid(row = 0,column = 2)
-        itemComponent.ItemComponent(self)
+        testImg = os.path.join(application.resourcesFolder,'images/test3.gif')
+        itemComponent.ItemComponent(self,testImg)
         self.csvController = csvController.CsvController()
         self.loadItemData()
 
