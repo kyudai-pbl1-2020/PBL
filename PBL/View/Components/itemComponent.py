@@ -18,18 +18,13 @@ class ItemComponent(tk.Frame):
         self.status.set(1)
         self.status_control = tk.Radiobutton(self.pic_frame, variable = self.status, value=0, command=self.activeItem)
         self.status_control.grid(row=0, column=0, padx=15)
-        #
-        #self.image_file = ImageTk.open("")
-        #self.image_file.resize((100,100))
+
         self.canvas_width = 100
         self.canvas_height= 100
-        self.pic_canvas = tk.Canvas(self.pic_frame, width=self.canvas_width, height=self.canvas_height,
-                                    background="light gray")
+        self.pic_canvas = tk.Canvas(self.pic_frame, width=self.canvas_width, height=self.canvas_height)
         self.pic_canvas.grid(row=0, column=1, padx=15, pady=10)
 
-        print(item)
-        self.image = Image.open(item['imgPath'])
-        self.image = self.image.resize((self.canvas_width,self.canvas_height),Image.ANTIALIAS)
+        self.image = self.process_image(item['imgPath'], 102)
         self.image = ImageTk.PhotoImage(self.image)
         self.pic_canvas.create_image(0,0, anchor="nw", image=self.image)
 
@@ -56,3 +51,37 @@ class ItemComponent(tk.Frame):
 
     def activeItem(self):
         pass
+
+    def process_image(self, path, target_size):
+        image = self.load_image(path)
+        image = self.resize_image(image, target_size)
+        image = self.paste_image(image, target_size)
+        return image
+
+    def load_image(self, path):
+        return Image.open(path)
+
+    def resize_image(self, image, target_size):
+        w, h = image.size
+        assert (target_size<=w and target_size<=h), "target_size must smaller than height and width"
+        target_size = int(target_size)
+        if w<h:
+            ratio = h/target_size
+            new_w = int(w/ratio)
+            out = image.resize((new_w, target_size))
+        else:
+            ratio = w/target_size
+            new_h = int(h/ratio)
+            out = image.resize((target_size, new_h))
+        return out
+
+    def paste_image(self, image, target_size):
+        new_image = Image.new(image.mode, (target_size, target_size), "white")
+        w, h = image.size
+        left = int(target_size/2 - w/2)
+        right = int(target_size/2 + w/2)
+        upper = int(target_size/2 - h/2)
+        lower = int(target_size/2 + h/2)
+        box = (left, upper, right, lower)
+        new_image.paste(image, box)
+        return new_image

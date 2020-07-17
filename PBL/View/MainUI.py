@@ -17,7 +17,6 @@ class MainUI(tk.Frame):
             itemComponent.ItemComponent(self, itemList[0])
 
 
-
     def loadItemData(self):
         itemList = self.csvController.getItemData()
         return itemList
