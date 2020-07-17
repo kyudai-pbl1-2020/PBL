@@ -21,8 +21,8 @@ class Application(tk.Tk):
         #self.resizable(width=False,height=False)
         self.title("PBL 1 Application")
         self.addMenu()
-        #MainUI(self)
-        addItemView.AddItemView(self)
+        MainUI.MainUI(self)
+        #addItemView.AddItemView(self)
 
     def addMenu(self):
         self.menu = tk.Menu()

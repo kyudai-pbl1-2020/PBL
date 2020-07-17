@@ -48,7 +48,7 @@ class Controller:
     def download(self,url,productName):
         self.makeImagesFolder()
         response = requests.get(url, stream=True)
-        filename = os.path.join(self.imagesFolder, productName)
+        filename = os.path.join(self.imagesFolder, productName+'.png')
         progress = response.iter_content(1024)
         with open(filename, "wb") as f:
             for data in progress:
