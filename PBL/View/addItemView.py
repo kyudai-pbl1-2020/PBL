@@ -80,7 +80,7 @@ class AddItemView(tk.Frame):
         self.amazon_url = self.url_text.get("1.0","end-1c")
         self.img_url = self.controller.getImage(self.amazon_url)
         self.unit_price = self.controller.getItemPrice()
-        self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name)
+        self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name+'.png')
 
         #If unit_price is a float
         if ',' in self.unit_price:
@@ -136,6 +136,7 @@ class AddItemView(tk.Frame):
         self.product_name = self.name_entry.get()
         self.weight_goal = self.weight_entry.get()
         self.quantity = int(self.strVar.get())
+        self.imgPath = os.path.join(self.controller.imagesFolder, self.product_name+'.png')
 
 
     def updateDropDownValues(self):
