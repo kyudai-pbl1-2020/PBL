@@ -15,7 +15,8 @@ class MainUI(tk.Frame):
         #label.grid(row = 0,column = 2)
         self.csvController = csvController.CsvController()
         itemList = self.loadItemData()
-        itemComponent.ItemComponent(self, itemList[0])
+        if itemList:
+            itemComponent.ItemComponent(self, itemList[0])
 
         self.main_frame = tk.Frame(self)
         canvas = tk.Canvas(self.main_frame)
