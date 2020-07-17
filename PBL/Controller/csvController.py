@@ -2,7 +2,6 @@ import os
 import csv
 from PBL import application
 
-
 class CsvController():
     def __init__(self):
         self.csvfile = os.path.join(application.resourcesFolder,'items.csv')
@@ -22,6 +21,24 @@ class CsvController():
 
             writer.writerow(headers_data['data'])
 
+
+    def deleteItem(self,item):
+        rows = []
+        with open(self.csvfile, 'r') as file:
+            reader = csv.reader(file)
+            print(item.imgPath)
+            for row in reader:
+                rows.append(row)
+                fields = row[0].split(' ')
+                if fields[6] == item.imgPath:
+                    rows.remove(row)
+
+        with open(self.csvfile, 'w') as writeFile:
+            writer = csv.writer(writeFile)
+            writer.writerows(rows)
+
+        #remove img
+        os.remove(item.imgPath)
 
     def getItemData(self):
         #name weight unit_price quantity status amazon_url img
