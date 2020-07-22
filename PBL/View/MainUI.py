@@ -18,10 +18,29 @@ class MainUI(tk.Frame):
         if itemList:
             itemComponent.ItemComponent(self, itemList[0])
 
-        self.main_frame = tk.Frame(self)
-        canvas = tk.Canvas(self.main_frame)
-        scrollbar = tk.Scrollbar(canvas, orient="vertical", command=canvas.yview)
+        container = tk.Frame(self)
+        canvas = tk.Canvas(container, width=550, height=500)
+        canvas.place(x=100, y=0)
+        scrollbar = tk.Scrollbar(container, orient="vertical", command=canvas.yview)
         scrollable_frame = tk.Frame(canvas)
+
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: canvas.configure(
+                scrollregion=canvas.bbox("all")
+            )
+        )
+
+        canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        for i in range(50):
+            tk.Label(scrollable_frame, text="Sample scrolling label").pack()
+
+        container.pack(fill="both", expand=True)
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
