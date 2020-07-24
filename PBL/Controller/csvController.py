@@ -59,3 +59,37 @@ class CsvController():
                 itemList.append(newItem)
 
         return itemList
+
+
+    def updateItemStatus(self,item):
+        rows = []
+        with open(self.csvfile, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                fields = row[0].split(' ')
+                if fields[6] == item.imgPath:
+                    fields[4] = 'Active'
+                    row = ' '.join(fields)
+
+                rows.append(row)
+
+        with open(self.csvfile, 'w') as writeFile:
+            writer = csv.writer(writeFile)
+            writer.writerows(rows)
+
+
+    def updateItemWeight(self,item, weight):
+        rows = []
+        with open(self.csvfile, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                fields = row[0].split(' ')
+                if fields[6] == item.imgPath:
+                    fields[1] = str(weight)
+                    row = ' '.join(fields)
+
+                rows.append(row)
+
+        with open(self.csvfile, 'w') as writeFile:
+            writer = csv.writer(writeFile)
+            writer.writerows(rows)
