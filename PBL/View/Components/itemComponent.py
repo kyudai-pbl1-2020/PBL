@@ -17,15 +17,18 @@ class ItemComponent(tk.Frame):
         self.info_frame = tk.Frame(self)#, background="pink")
         self.info_frame.grid(row=0, column=1, sticky="nsew")
 
+        self.delete_button = tk.Button(self.pic_frame, text="X", fg="#FF3030", width=2, height=1, command=self.deleteItem)
+        self.delete_button.grid(row=0, column=0, padx=20)
+
         self.status = 0
         #self.status.set(0)
         self.status_control = tk.Radiobutton(self.pic_frame, variable = self.status, value=0, command=self.activeItem)
-        self.status_control.grid(row=0, column=0, padx=15)
+        self.status_control.grid(row=0, column=1, padx=15)
 
         self.canvas_width = 100
         self.canvas_height= 100
         self.pic_canvas = tk.Canvas(self.pic_frame, width=self.canvas_width, height=self.canvas_height, background="white")
-        self.pic_canvas.grid(row=0, column=1, padx=15, pady=10)
+        self.pic_canvas.grid(row=0, column=2, padx=15, pady=10)
 
         self.image = self.process_image(self.item.imgPath, 102)
         self.image = ImageTk.PhotoImage(self.image)
@@ -47,13 +50,23 @@ class ItemComponent(tk.Frame):
         self.current_weight = 100
         self.progressBar.create_rectangle(0,0,self.current_weight,25, fill="#00C5CD")
 
+        self.refresh_button = tk.Button(self.info_frame, text="uu", width=3, height=2, command=self.refershWeight)
+        self.refresh_button.grid(row=1, column=1,padx=15)
+
         self.order_button = tk.Button(self.info_frame, text="Order", width=12, height=2, command=self.orderItem, font=("Arial",12))
-        self.order_button.grid(row=2, padx=15, pady=8)
+        self.order_button.grid(row=2, column=0, padx=15, pady=8)
+
 
     def orderItem(self): #order Button
         self.orderController = orderItemController.OrderItemController()
         self.orderController.orderItem(self.item)
         self.orderController.closeDriver()
+
+    def deleteItem(self):
+        pass
+
+    def refershWeight(self):
+        pass
 
     def activeItem(self):
         #self.status.set(self.status_control['value'])
