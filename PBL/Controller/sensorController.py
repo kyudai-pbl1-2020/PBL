@@ -1,6 +1,6 @@
 import time
 import random
-
+import scaleController
 class Sensor:
     """
     センサーの測定結果から商品の在庫が少なくなってきたことを検知する
@@ -42,7 +42,9 @@ def main():
     water_sensor = Sensor( item, weight, min_stock )
     for _ in range( 5 ): # while True:
         # measure : output from sensor
-        measure = random.randrange( 1000, 3000, 1 )
+        sc = scaleController.scaleController()
+        measure1 = sc.getWeight()
+        measure = float(measure1)
         # measure = measure2data( "ST, +00231.35, g" )
         if water_sensor.stockcheck( measure ):
             print( str( measure ) + "\tOrdered" )
