@@ -1,4 +1,6 @@
 import tkinter as tk
+import time
+from PBL.View import addItemView as ai
 from PBL.Controller import csvController
 from .Components import itemComponent
 import os
@@ -31,7 +33,6 @@ class MainUI(tk.Frame):
                 itemFrame = itemComponent.ItemComponent(self.frame, itemList[index],index)
                 itemFrame.status = statusVariable
                 itemFrame.status_control['value']=index
-
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
