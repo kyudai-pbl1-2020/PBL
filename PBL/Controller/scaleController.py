@@ -43,7 +43,6 @@ class ScaleController:
         print(data)
         data = data.split(',')[1]
         data = data.replace("+", "")
-        #data = data.strip("0")
         return data
 
     def escaping(self, c):
@@ -54,7 +53,6 @@ class ScaleController:
     def getWeight(self):
         self.setup()
         scale = b''
-        merged = ''
 
         if(self.ser.in_waiting != 0):
             data = self.ser.read(self.ser.in_waiting)
@@ -69,8 +67,8 @@ class ScaleController:
 
 
 #TESTING
-if __name__ == "__main__":
-    currentWeight = None
-    sc = ScaleController()
-    currentWeight = sc.getWeight()
-    print(currentWeight)
+# if __name__ == "__main__":
+#     currentWeight = None
+#     sc = ScaleController()
+#     currentWeight = sc.getWeight()
+#     print(currentWeight)
