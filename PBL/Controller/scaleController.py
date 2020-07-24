@@ -11,7 +11,7 @@ class ScaleController:
         self.parity = serial.PARITY_EVEN
         self.stopbits = serial.STOPBITS_ONE
         self.bytesize = serial.SEVENBITS
-        
+
         self.ser = serial.Serial(
             port=self.port,
             baudrate=self.baudrate,
@@ -27,7 +27,7 @@ class ScaleController:
         time.sleep(0.1)
         self.ser.write(b'C\r')
         time.sleep(0.1)
-        self.ser.write(b'C\r')  
+        self.ser.write(b'C\r')
         time.sleep(0.1)
         self.ser.write(b'SIR\r')
         time.sleep(0.1)
@@ -37,6 +37,7 @@ class ScaleController:
 
     def process(self,data):
         data = data.decode()
+        print(data)
         data = data.split(',')[1]
         data = data.replace("+", "")
         data = data.strip("0")
@@ -49,6 +50,8 @@ class ScaleController:
 
         if(self.ser.in_waiting != 0):
             data = self.ser.read(self.ser.in_waiting)
+            while data.decode() == 'S':
+                data = self.ser.read(self.ser.in_waiting)
             scale += data
 
         self.ser.write(b'C\r')
