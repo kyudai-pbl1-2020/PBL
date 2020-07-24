@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 from PBL.Controller import orderItemController
+from PBL.Controller import csvController
 
 class ItemComponent(tk.Frame):
 
@@ -56,9 +57,8 @@ class ItemComponent(tk.Frame):
         self.orderController.closeDriver()
 
     def activeItem(self):
-        #self.status.set(self.status_control['value'])
-        #print(self.status_control['value'])
-        #print(self.status)
+        self.active_update = csvController.CsvController()
+        self.active_update.updateItemStatus( self.item )
         pass
 
 
