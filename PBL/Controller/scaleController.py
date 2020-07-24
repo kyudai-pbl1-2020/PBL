@@ -59,7 +59,7 @@ class ScaleController:
             scale += data
 
         if len(scale) > 0:
-            scale += ''.join(list(map(self.escaping, scale.decode())))
+            scale = ''.join(list(map(self.escaping, scale.decode())))
 
         self.ser.write(b'C\r')
         weight = self.process(scale)
