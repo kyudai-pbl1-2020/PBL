@@ -43,7 +43,7 @@ class ScaleController:
         print(data)
         data = data.split(',')[1]
         data = data.replace("+", "")
-        data = data.strip("0")
+        #data = data.strip("0")
         return data
 
     def escaping(self, c):
