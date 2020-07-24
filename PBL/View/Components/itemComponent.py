@@ -1,11 +1,14 @@
 import tkinter as tk
 from PIL import ImageTk, Image
+from PBL.Controller import orderItemController
+from PBL.Model import item
 
 class ItemComponent(tk.Frame):
 
     def __init__(self, parent, item):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
+        self.item = item
         self.grid()
         #frame for checkbox, image
         self.pic_frame = tk.Frame(self)#, background="light green")
@@ -24,7 +27,7 @@ class ItemComponent(tk.Frame):
         self.pic_canvas = tk.Canvas(self.pic_frame, width=self.canvas_width, height=self.canvas_height, background="white")
         self.pic_canvas.grid(row=0, column=1, padx=15, pady=10)
 
-        self.image = self.process_image(item['imgPath'], 102)
+        self.image = self.process_image(self.item.imgPath, 102)
         self.image = ImageTk.PhotoImage(self.image)
         self.pic_canvas.create_image(0,0, anchor="nw", image=self.image)
 
@@ -34,7 +37,7 @@ class ItemComponent(tk.Frame):
         #self.testlabel.grid(row=1,column=1,padx=15,pady=10)
         #
         self.itemName_label = tk.StringVar()
-        self.itemName_label.set(item['name'])
+        self.itemName_label.set(self.item.name)
         self.name_label = tk.Label(self.info_frame, textvariable=self.itemName_label, width=10, fg="#008080",anchor="sw", font=("Arial",15))
         self.name_label.grid(row=0, padx=20, pady=8, sticky="w")
         #
@@ -48,7 +51,9 @@ class ItemComponent(tk.Frame):
         self.order_button.grid(row=2, padx=15, pady=8)
 
     def orderItem(self): #order Button
-        pass
+        self.orderController = orderItemController.OrderItemController()
+        self.orderController.orderItem(self.item)
+        self.orderController.closeDriver()
 
     def activeItem(self):
         #self.status.set(self.status_control['value'])
