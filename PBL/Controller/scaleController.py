@@ -36,23 +36,32 @@ class ScaleController:
         self.ser.write(b'SIR\r')
 
     def process(self,data):
-        data = data.decode()
+        try:
+            data = data.decode()
+        except (UnicodeDecodeError,AttributeError):
+            pass
         print(data)
         data = data.split(',')[1]
         data = data.replace("+", "")
         data = data.strip("0")
         return data
 
+    def escaping(self, c):
+        if c != '\r' and (ord(c) < 0x20 or ord(c) > 0x7e):
+            return ''
+        return c
 
     def getWeight(self):
         self.setup()
         scale = b''
+        merged = ''
 
         if(self.ser.in_waiting != 0):
             data = self.ser.read(self.ser.in_waiting)
-            while data.decode() == 'S':
-                data = self.ser.read(self.ser.in_waiting)
             scale += data
+
+        if len(scale) > 0:
+            scale += ''.join(list(map(self.escaping, scale.decode())))
 
         self.ser.write(b'C\r')
         weight = self.process(scale)
