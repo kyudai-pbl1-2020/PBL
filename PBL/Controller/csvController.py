@@ -1,6 +1,7 @@
 import os
 import csv
 from PBL import application
+from PBL.Model import item
 
 class CsvController():
     def __init__(self):
@@ -51,16 +52,10 @@ class CsvController():
         with open(self.csvfile,newline='') as file:
             file.readline() #Skip Headers
             for row in file:
-                item = {}
                 data = row.split(' ')
-                item['name'] = data[0]
-                item['weight'] = data[1]
-                item['unit_price'] = data[2]
-                item['quantity'] = data[3]
-                item['status'] = data[4]
-                item['amazon_url'] = data[5]
-                item['imgPath'] = data[6].rstrip()
+                newItem = item.Item(name=data[0], weight=data[1], unit_price=data[2], quantity=data[3],
+                                    status=data[4], amazon_url=data[5], imgPath=data[6].rstrip())
 
-                itemList.append(item)
+                itemList.append(newItem)
 
         return itemList

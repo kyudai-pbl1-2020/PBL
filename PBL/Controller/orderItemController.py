@@ -103,10 +103,9 @@ class OrderItemController:
         self.naviguate(login_button_xpath)
 
 
-from Model import item as Item
-if __name__ == "__main__":
-    test_url = "https://www.amazon.co.jp/%E5%92%8C%E5%85%89%E5%A0%82-FQ4-%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AE%E9%9B%A2%E4%B9%B3%E9%A3%9F-%E8%A3%8F%E3%81%94%E3%81%97%E3%81%8A%E3%81%95%E3%81%8B%E3%81%AA-2-6g%C3%976%E5%80%8B/dp/B0052VL6RI/ref=sr_1_8?dchild=1&keywords=%E3%83%99%E3%83%93%E3%83%BC%E3%83%95%E3%83%BC%E3%83%89&qid=1591943963&sr=8-8"
-    test_item = Item.Item('testItem','500',4.99,4,'inactive',test_url,"somePath")
-    oic = OrderItemController()
-    oic.orderItem(test_item)
+# if __name__ == "__main__":
+#     test_url = "https://www.amazon.co.jp/%E5%92%8C%E5%85%89%E5%A0%82-FQ4-%E3%81%AF%E3%81%98%E3%82%81%E3%81%A6%E3%81%AE%E9%9B%A2%E4%B9%B3%E9%A3%9F-%E8%A3%8F%E3%81%94%E3%81%97%E3%81%8A%E3%81%95%E3%81%8B%E3%81%AA-2-6g%C3%976%E5%80%8B/dp/B0052VL6RI/ref=sr_1_8?dchild=1&keywords=%E3%83%99%E3%83%93%E3%83%BC%E3%83%95%E3%83%BC%E3%83%89&qid=1591943963&sr=8-8"
+#     test_item = Item.Item('testItem','500',4.99,4,'inactive',test_url,"somePath")
+#     oic = OrderItemController()
+#     oic.orderItem(test_item)
     #oic.closeDriver()
