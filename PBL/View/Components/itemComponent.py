@@ -1,15 +1,15 @@
 import tkinter as tk
 from PIL import ImageTk, Image
 from PBL.Controller import orderItemController
-from PBL.Model import item
 
 class ItemComponent(tk.Frame):
 
-    def __init__(self, parent, item):
+    def __init__(self, parent, item,row=None):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
-        self.grid()
+        self.grid(row=row,column=0)
+
         #frame for checkbox, image
         self.pic_frame = tk.Frame(self)#, background="light green")
         self.pic_frame.grid(row=0, column=0, sticky="nsew")

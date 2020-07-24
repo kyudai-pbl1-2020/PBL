@@ -88,7 +88,6 @@ class AddItemView(tk.Frame):
 
         #Get valid quantities from amazon dropdown menu and activate dropdown menu
         dropdown_options = self.controller.getQuantities()
-        print(dropdown_options)
         self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
         self.min_quantity = self.quantity
         dropdown_options = [value for value in dropdown_options if int(value) >= self.min_quantity]
