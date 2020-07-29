@@ -7,7 +7,7 @@ from PBL import application
 class MainUI(tk.Frame):
 
     def __init__(self, parent):
-        tk.Frame.__init__(self, parent,background="orange")
+        tk.Frame.__init__(self, parent)
         self.pack(side="top",fill="both",expand=True)
 
         self.canvas = tk.Canvas(self, borderwidth=0, background="#ffffff")
