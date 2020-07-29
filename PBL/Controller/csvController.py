@@ -78,3 +78,20 @@ class CsvController():
         with open(self.csvfile, 'w') as writeFile:
             writer = csv.writer(writeFile,delimiter=" ",quoting=csv.QUOTE_MINIMAL)
             writer.writerows(rows)
+
+
+    def updateItemWeight(self,item, weight):
+        rows = []
+        with open(self.csvfile, 'r') as file:
+            reader = csv.reader(file)
+            for row in reader:
+                fields = row[0].split(' ')
+                if fields[6] == item.imgPath:
+                    fields[1] = str(weight)
+                    row = ' '.join(fields)
+
+                rows.append(row)
+
+        with open(self.csvfile, 'w') as writeFile:
+            writer = csv.writer(writeFile,delimiter=" ",quoting=csv.QUOTE_MINIMAL)
+            writer.writerows(rows)
