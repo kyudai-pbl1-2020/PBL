@@ -32,7 +32,6 @@ class MainUI(tk.Frame):
                 itemFrame.status = statusVariable
                 itemFrame.status_control['value']=index
 
-
     def loadItemData(self):
         itemList = self.csvController.getItemData()
         return itemList
