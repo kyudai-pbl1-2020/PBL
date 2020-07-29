@@ -85,10 +85,10 @@ class CsvController():
         with open(self.csvfile, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
-                fields = row[0].split(' ')
+                fields = row[0].split(" ")
                 if fields[6] == item.imgPath:
                     fields[1] = str(weight)
-                    row = ' '.join(fields)
+                    row = fields
 
                 rows.append(row)
 
