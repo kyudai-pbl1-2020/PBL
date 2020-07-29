@@ -4,6 +4,8 @@ from PIL import ImageTk, Image
 from PBL.Controller import orderItemController,csvController
 import os
 from PBL import application
+
+
 class ItemComponent(tk.Frame):
 
     def __init__(self, parent, item,row=None):
@@ -77,13 +79,9 @@ class ItemComponent(tk.Frame):
         self.csvController = csvController.CsvController()
         self.csvController.deleteItem(self.item)
         self.csvController = None
-<<<<<<< HEAD
-=======
 
         mainApp = self.parent.master.master.master #go all the way to application.py
         mainApp.changepage("MainUI") #navigate to mainui to refresh the page and remove the deleted item
-
->>>>>>> 1e5fbe37e05b98dd8805ee4967d310c7857edb1a
 
     def refershWeight(self):
         pass
