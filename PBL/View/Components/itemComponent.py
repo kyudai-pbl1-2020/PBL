@@ -1,6 +1,7 @@
 import tkinter as tk
+from tkinter import Widget
 from PIL import ImageTk, Image
-from PBL.Controller import orderItemController
+from PBL.Controller import orderItemController,csvController
 
 class ItemComponent(tk.Frame):
 
@@ -70,7 +71,13 @@ class ItemComponent(tk.Frame):
         self.orderController.closeDriver()
 
     def deleteItem(self):
-        pass
+        self.csvController = csvController.CsvController()
+        self.csvController.deleteItem(self.item)
+        self.csvController = None
+
+        mainApp = self.parent.master.master.master #go all the way to application.py
+        mainApp.changepage("MainUI") #navigate to mainui to refresh the page and remove the deleted item
+
 
     def refershWeight(self):
         pass
