@@ -1,6 +1,9 @@
 import tkinter as tk
+import os
 from PIL import ImageTk, Image
+from PBL import application
 from PBL.Controller import orderItemController
+from PBL.Controller import csvController
 
 class ItemComponent(tk.Frame):
 
@@ -17,7 +20,9 @@ class ItemComponent(tk.Frame):
         self.info_frame = tk.Frame(self)#, background="pink")
         self.info_frame.grid(row=0, column=1, sticky="nsew")
 
-        self.deleteImage = Image.open('./Icons/shanchu.png')
+        self.csvfile = os.path.join(application.resourcesFolder,'items.csv')
+        self.delete_path = os.path.join(application.resourcesFolder,'Icons/shanchu.png')
+        self.deleteImage = Image.open(self.delete_path)
         self.deleteImage = self.deleteImage.resize((15,15))
         self.deleteImage = ImageTk.PhotoImage(image=self.deleteImage)
         self.delete_button = tk.Button(self.pic_frame, width=15, height=15, image=self.deleteImage, command=self.deleteItem)
@@ -53,8 +58,8 @@ class ItemComponent(tk.Frame):
         self.current_weight = 100
         self.progressBar.create_rectangle(0,0,self.current_weight,25, fill="#00C5CD")
 
-        self.updateImage = Image.open('./Icons/update.png')
-
+        self.update_path = os.path.join(application.resourcesFolder,'Icons/update.png')
+        self.updateImage = Image.open(self.update_path)
         self.updateImage = self.updateImage.resize((25,25))
         self.updateImage = ImageTk.PhotoImage(image=self.updateImage)
         self.refresh_button = tk.Button(self.info_frame, width=28, height=28, image=self.updateImage, command=self.refershWeight)
@@ -70,7 +75,9 @@ class ItemComponent(tk.Frame):
         self.orderController.closeDriver()
 
     def deleteItem(self):
-        pass
+        self.csvController = csvController.CsvController()
+        self.csvController.deleteItem(self.item)
+        self.csvController = None
 
     def refershWeight(self):
         pass
