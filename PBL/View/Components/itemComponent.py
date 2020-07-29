@@ -83,6 +83,8 @@ class ItemComponent(tk.Frame):
         pass
 
     def activeItem(self):
+        self.active_update = csvController.CsvController()
+        self.active_update.updateItemStatus( self.item )
         pass
 
 
