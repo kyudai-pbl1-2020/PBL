@@ -61,14 +61,17 @@ class CsvController():
         return itemList
 
 
-    def updateItemStatus(self,item):
+    def updateItemStatus(self,item,status=None):
         rows = []
         with open(self.csvfile, 'r') as file:
             reader = csv.reader(file)
             for row in reader:
                 fields = row[0].split(" ")
                 if fields[6] == item.imgPath:
-                    fields[4] = 'Active'
+                    if status:
+                        fields[4] = status
+                    else:
+                        fields[4] = 'Active'
                 else:
                     fields[4] = 'Inactive'
 
