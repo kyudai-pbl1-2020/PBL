@@ -1,15 +1,16 @@
 import tkinter as tk
+from tkinter import Widget
 from PIL import ImageTk, Image
-from PBL.Controller import orderItemController
-from PBL.Model import item
+from PBL.Controller import orderItemController,csvController
 
 class ItemComponent(tk.Frame):
 
-    def __init__(self, parent, item):
+    def __init__(self, parent, item,row=None):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
-        self.grid()
+        self.grid(row=row,column=0)
+
         #frame for checkbox, image
         self.pic_frame = tk.Frame(self)#, background="light green")
         self.pic_frame.grid(row=0, column=0, sticky="nsew")
@@ -17,15 +18,21 @@ class ItemComponent(tk.Frame):
         self.info_frame = tk.Frame(self)#, background="pink")
         self.info_frame.grid(row=0, column=1, sticky="nsew")
 
+        self.deleteImage = Image.open('./Icons/shanchu.png')
+        self.deleteImage = self.deleteImage.resize((15,15))
+        self.deleteImage = ImageTk.PhotoImage(image=self.deleteImage)
+        self.delete_button = tk.Button(self.pic_frame, width=15, height=15, image=self.deleteImage, command=self.deleteItem)
+        self.delete_button.grid(row=0, column=0, padx=30)
+
         self.status = 0
         #self.status.set(0)
         self.status_control = tk.Radiobutton(self.pic_frame, variable = self.status, value=0, command=self.activeItem)
-        self.status_control.grid(row=0, column=0, padx=15)
+        self.status_control.grid(row=0, column=1, padx=15)
 
         self.canvas_width = 100
         self.canvas_height= 100
         self.pic_canvas = tk.Canvas(self.pic_frame, width=self.canvas_width, height=self.canvas_height, background="white")
-        self.pic_canvas.grid(row=0, column=1, padx=15, pady=10)
+        self.pic_canvas.grid(row=0, column=2, padx=15, pady=10)
 
         self.image = self.process_image(self.item.imgPath, 102)
         self.image = ImageTk.PhotoImage(self.image)
@@ -39,26 +46,48 @@ class ItemComponent(tk.Frame):
         self.itemName_label = tk.StringVar()
         self.itemName_label.set(self.item.name)
         self.name_label = tk.Label(self.info_frame, textvariable=self.itemName_label, width=10, fg="#008080",anchor="sw", font=("Arial",15))
-        self.name_label.grid(row=0, padx=20, pady=8, sticky="w")
+        self.name_label.grid(row=0, column=0, padx=20, pady=8, sticky="w")
         #
         self.progressBar = tk.Canvas(self.info_frame, width=150, height=20, background="light grey")
-        self.progressBar.grid(row=1, padx=15, pady=4, sticky="nsew")
+        self.progressBar.grid(row=1, column=0, padx=15, pady=4, sticky="nsew")
 
         self.current_weight = 100
         self.progressBar.create_rectangle(0,0,self.current_weight,25, fill="#00C5CD")
 
-        self.order_button = tk.Button(self.info_frame, text="Order", width=12, height=2, command=self.orderItem, font=("Arial",12))
-        self.order_button.grid(row=2, padx=15, pady=8)
+        self.updateImage = Image.open('./Icons/update.png')
 
-    def orderItem(self): #order Button
+        self.updateImage = self.updateImage.resize((25,25))
+        self.updateImage = ImageTk.PhotoImage(image=self.updateImage)
+        self.refresh_button = tk.Button(self.info_frame, width=28, height=28, image=self.updateImage, command=self.refershWeight)
+        self.refresh_button.grid(row=1, column=1,padx=20)
+
+        self.order_button = tk.Button(self.info_frame, text="Order", width=12, height=2, command=self.orderItem, font=("Arial",12))
+        self.order_button.grid(row=2, column=0, padx=15, pady=8)
+
+
+    def orderItem(self):
         self.orderController = orderItemController.OrderItemController()
         self.orderController.orderItem(self.item)
         self.orderController.closeDriver()
 
+    def deleteItem(self):
+        self.csvController = csvController.CsvController()
+        self.csvController.deleteItem(self.item)
+        self.csvController = None
+
+        mainApp = self.parent.master.master.master #go all the way to application.py
+        mainApp.changepage("MainUI") #navigate to mainui to refresh the page and remove the deleted item
+
+
+    def refershWeight(self):
+        
+        self.csvController = csvController.CsvController()
+        self.csvController.updateItemWeight(self.item, 0)
+        
+        mainApp = self.parent.master.master.master
+        mainApp.changepage("MainUI")
+
     def activeItem(self):
-        #self.status.set(self.status_control['value'])
-        #print(self.status_control['value'])
-        #print(self.status)
         pass
 
 
