@@ -24,10 +24,10 @@ class CredentialView(tk.Frame):
         self.button.place(x=175, y=200)
 
 
-    def getInfo(self ):
+    def getInfo(self):
         id_value = self.id_box.get()
         pw_value = self.pw_box.get()
         user_ctrl = UserController()
         user_ctrl.setUserInformation( id_value, pw_value )
-        # print( user_ctrl.getUserInformation() ) # for test
-        return
+        #print( user_ctrl.getUserInformation() ) # for test
+        self.parent.changepage("MainUI")
