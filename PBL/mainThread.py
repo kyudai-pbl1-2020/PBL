@@ -15,6 +15,6 @@ class TimerThread(threading.Thread):
         active_item = csvController.CsvController().getActiveItem()
         # new_weight = self.scaleController.getWeight()
         # self.csvController.updateItemWeight(active_item,new_weight)
-        time.sleep( 5)
+        time.sleep(5)
         # ↓test
         print("1[s]")
