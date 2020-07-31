@@ -1,14 +1,13 @@
-from .scaleController import ScaleController
 from .orderItemController import OrderItemController
 from .csvController import CsvController
+from PBL.client_socket import send_data_request
 
 class SensorController:
     def __init__(self):
-        self.sc = ScaleController()
         self.csvController = CsvController()
 
     def querySensor(self,item):
-        currentWeight = self.sc.getWeight()
+        currentWeight = send_data_request()
         if currentWeight < item.weight:
             self.oic = OrderItemController()
             self.oic.orderItem(item)

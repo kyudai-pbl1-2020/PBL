@@ -12,7 +12,7 @@ class ItemComponent(tk.Frame):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
-        #self.sc = sensorController.SensorController()
+        self.sc = sensorController.SensorController()
         self.grid(row=row,column=0)
 
         #frame for checkbox, image
@@ -86,6 +86,10 @@ class ItemComponent(tk.Frame):
 
     def refreshWeight(self):
         self.sc.querySensor(self.item)
+
+        mainApp = self.parent.master.master.master  # go all the way to application.py
+        mainApp.changepage("MainUI")  # navigate to mainui to refresh the page and remove the deleted item
+
 
     def activeItem(self):
         self.active_update = csvController.CsvController()

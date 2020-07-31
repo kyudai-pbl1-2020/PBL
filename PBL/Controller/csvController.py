@@ -63,6 +63,7 @@ class CsvController():
 
     def updateItemStatus(self,item,status=None):
         rows = []
+        print("updating ",item)
         with open(self.csvfile, 'r') as file:
             reader = csv.reader(file)
             for row in reader:

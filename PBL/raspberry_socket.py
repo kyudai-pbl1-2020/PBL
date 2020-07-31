@@ -1,5 +1,6 @@
 import socket
 import subprocess
+from PBL.Controller import scaleController
 
 
 def format_sensor_data(data):
@@ -11,14 +12,8 @@ def format_sensor_data(data):
         return weight
 
 
-def query_sensor():
-    kermit_process = subprocess.Popen(["./RefactoringMiner", "-a", project_path, "master"],
-                                  stdout=subprocess.PIPE, cwd=)
-    output = kermit_process.communicate()[0]
-
-
 def run_server(server_ip=socket.gethostname(), server_port=80):
-
+    sc = scaleController.ScaleController()
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print("Server Started. Waiting for client to connect ")
         s.bind((server_ip, server_port))
@@ -32,10 +27,9 @@ def run_server(server_ip=socket.gethostname(), server_port=80):
                 data = conn.recv(1024).decode('utf-8')
 
                 if str(data) == "Data_Request":
-
                     print("Reading weight from sensor...")
-                    sensor_output = query_sensor()
-                    current_weight = format_sensor_data(sensor_output)
+                    current_weight = sc.getWeight()
+                    #current_weight = format_sensor_data(sensor_output)
                     print("Ok. Sending data.")
 
                     encoded_data = current_weight.encode('utf-8')
