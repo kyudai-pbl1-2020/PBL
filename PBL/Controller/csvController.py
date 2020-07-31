@@ -98,3 +98,18 @@ class CsvController():
         with open(self.csvfile, 'w') as writeFile:
             writer = csv.writer(writeFile,delimiter=" ",quoting=csv.QUOTE_MINIMAL)
             writer.writerows(rows)
+
+
+    def getActiveItem(self):
+        activeItem = None
+        with open(self.csvfile, 'r') as file:
+            reader = csv.reader(file)
+            for i,row in enumerate(reader):
+                fields = row[0].split(" ")
+                if fields[4] == 'Active' or fields[4] == 'Ordered':
+                    activeItem = item.Item(fields[0],fields[1],fields[2],fields[3],fields[4],fields[5],fields[5])
+                    break
+
+        return activeItem
+
+
