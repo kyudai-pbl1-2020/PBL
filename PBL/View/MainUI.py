@@ -1,8 +1,10 @@
 import tkinter as tk
+import time
 from PBL.Controller import csvController
 from .Components import itemComponent
 import os
 from PBL import application
+from PBL.Controller import scaleController
 
 class MainUI(tk.Frame):
 
@@ -24,6 +26,7 @@ class MainUI(tk.Frame):
 
 
         self.csvController = csvController.CsvController()
+        self.scaleController = scaleController.ScaleController()
         itemList = self.loadItemData()
         statusVariable = tk.IntVar()
         if itemList:
@@ -40,3 +43,10 @@ class MainUI(tk.Frame):
     def onFrameConfigure(self, event):
         '''Reset the scroll region to encompass the inner frame'''
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+
+    def getWeightRegularly(self):
+        while True:
+            new_weight = self.scaleController.getWeight()
+            self.csvController.updateItemWeight(item,new_weight)
+            time.sleep( 15 * 60 )
+
