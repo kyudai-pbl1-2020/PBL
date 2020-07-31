@@ -1,22 +1,20 @@
 import threading
-from PBL import application
+import time
+from PBL.Controller import csvController
 
-class MainThread(threading.Thread):
+class TimerThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.start()
 
-    def callback(self):
-        self.root.quit()
-
     def run(self):
-        self.root = application.Application()
-        self.root.protocol("WM_DELETE_WINDOW",self.callback)
+        while True:
+            self.getWeightRegularly()
 
-
-
-def main():
-    app = MainThread()
-
-if __name__ == "__main__":
-    main()
+    def getWeightRegularly(self):
+        active_item = csvController.CsvController().getActiveItem()
+        # new_weight = self.scaleController.getWeight()
+        # self.csvController.updateItemWeight(active_item,new_weight)
+        time.sleep( 5)
+        # ↓test
+        print("1[s]")

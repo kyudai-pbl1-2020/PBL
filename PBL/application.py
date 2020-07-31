@@ -49,3 +49,11 @@ class Application(tk.Tk):
     def makeResourcesFolder(self):
         if not os.path.isdir(resourcesFolder):
             os.mkdir(resourcesFolder)
+
+
+def main():
+    app = Application()
+    app.mainloop()
+
+if __name__ == "__main__":
+    main()

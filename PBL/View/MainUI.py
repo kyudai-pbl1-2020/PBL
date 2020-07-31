@@ -1,6 +1,7 @@
 import tkinter as tk
 from PBL.Controller import csvController
 from .Components import itemComponent
+from PBL.mainThread import TimerThread
 import os
 from PBL import application
 
@@ -22,7 +23,6 @@ class MainUI(tk.Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-
         self.csvController = csvController.CsvController()
         itemList = self.loadItemData()
         statusVariable = tk.IntVar()
@@ -31,6 +31,8 @@ class MainUI(tk.Frame):
                 itemFrame = itemComponent.ItemComponent(self.frame, itemList[index],index)
                 itemFrame.status = statusVariable
                 itemFrame.status_control['value']=index
+
+        TimerThread()
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
