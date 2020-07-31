@@ -2,6 +2,7 @@ import tkinter as tk
 import time
 from PBL.Controller import csvController
 from .Components import itemComponent
+from PBL.mainThread import TimerThread
 import os
 from PBL import application
 from PBL.Controller import scaleController
@@ -24,7 +25,6 @@ class MainUI(tk.Frame):
 
         self.frame.bind("<Configure>", self.onFrameConfigure)
 
-
         self.csvController = csvController.CsvController()
         # self.scaleController = scaleController.ScaleController()
         itemList = self.loadItemData()
@@ -35,6 +35,8 @@ class MainUI(tk.Frame):
                 itemFrame.status = statusVariable
                 itemFrame.status_control['value']=index
         self.getWeightRegularly()
+
+        TimerThread()
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()

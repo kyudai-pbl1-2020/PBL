@@ -9,8 +9,8 @@ from PBL.View import credentialView
 resourcesFolder = os.path.join(os.getcwd(), 'Resources')
 
 
-class Application(tk.Tk):
 
+class Application(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.makeResourcesFolder()
@@ -49,6 +49,7 @@ class Application(tk.Tk):
     def makeResourcesFolder(self):
         if not os.path.isdir(resourcesFolder):
             os.mkdir(resourcesFolder)
+
 
 def main():
     app = Application()

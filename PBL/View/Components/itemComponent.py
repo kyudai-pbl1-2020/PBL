@@ -90,7 +90,6 @@ class ItemComponent(tk.Frame):
     def activeItem(self):
         self.active_update = csvController.CsvController()
         self.active_update.updateItemStatus( self.item )
-        pass
 
 
     def process_image(self, path, target_size):
