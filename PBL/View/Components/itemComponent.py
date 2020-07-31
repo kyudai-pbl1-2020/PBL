@@ -12,7 +12,7 @@ class ItemComponent(tk.Frame):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
-        self.sc = sensorController.SensorController()
+        # self.sc = sensorController.SensorController()
         self.grid(row=row,column=0)
 
         #frame for checkbox, image

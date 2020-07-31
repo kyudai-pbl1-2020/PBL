@@ -26,7 +26,7 @@ class MainUI(tk.Frame):
 
 
         self.csvController = csvController.CsvController()
-        self.scaleController = scaleController.ScaleController()
+        # self.scaleController = scaleController.ScaleController()
         itemList = self.loadItemData()
         statusVariable = tk.IntVar()
         if itemList:
@@ -34,6 +34,7 @@ class MainUI(tk.Frame):
                 itemFrame = itemComponent.ItemComponent(self.frame, itemList[index],index)
                 itemFrame.status = statusVariable
                 itemFrame.status_control['value']=index
+        self.getWeightRegularly()
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
@@ -45,8 +46,12 @@ class MainUI(tk.Frame):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
     def getWeightRegularly(self):
+        active_item = self.csvController.getActiveItem()
         while True:
-            new_weight = self.scaleController.getWeight()
-            self.csvController.updateItemWeight(item,new_weight)
-            time.sleep( 15 * 60 )
+            # new_weight = self.scaleController.getWeight()
+            # self.csvController.updateItemWeight(active_item,new_weight)
+            # time.sleep( 15 * 60 )
+            # ↓test
+            print( "1[s]" )
+            self.after( 1 * 1000 )
 
