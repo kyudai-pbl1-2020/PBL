@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import Widget
 from PIL import ImageTk, Image
-from PBL.Controller import orderItemController,csvController
+from PBL.Controller import orderItemController,csvController,sensorController
 import os
 from PBL import application
 
@@ -12,6 +12,7 @@ class ItemComponent(tk.Frame):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
+        self.sc = sensorController.SensorController()
         self.grid(row=row,column=0)
 
         #frame for checkbox, image
@@ -63,7 +64,7 @@ class ItemComponent(tk.Frame):
         self.updateImage = Image.open(self.update_path)
         self.updateImage = self.updateImage.resize((25,25))
         self.updateImage = ImageTk.PhotoImage(image=self.updateImage)
-        self.refresh_button = tk.Button(self.info_frame, width=28, height=28, image=self.updateImage, command=self.refershWeight)
+        self.refresh_button = tk.Button(self.info_frame, width=28, height=28, image=self.updateImage, command=self.refreshWeight)
         self.refresh_button.grid(row=1, column=1,padx=20)
 
         self.order_button = tk.Button(self.info_frame, text="Order", width=12, height=2, command=self.orderItem, font=("Arial",12))
@@ -83,8 +84,8 @@ class ItemComponent(tk.Frame):
         mainApp = self.parent.master.master.master #go all the way to application.py
         mainApp.changepage("MainUI") #navigate to mainui to refresh the page and remove the deleted item
 
-    def refershWeight(self):
-        pass
+    def refreshWeight(self):
+        self.sc.querySensor(self.item)
 
     def activeItem(self):
         self.active_update = csvController.CsvController()
