@@ -9,7 +9,7 @@ import csv
 
 class MainUI(tk.Frame):
 
-    def __init__(self, parent):
+    def __init__(self, parent,timerThread):
         tk.Frame.__init__(self, parent)
         self.pack(side="top",fill="both",expand=True)
 
@@ -37,7 +37,6 @@ class MainUI(tk.Frame):
                 if item.status == 'Active':
                     itemFrame.status_control.select()
 
-        TimerThread()
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
