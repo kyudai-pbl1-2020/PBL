@@ -1,6 +1,6 @@
 import socket
 
-def send_data_request(server_ip=socket.gethostname(),server_port = 80, input='Data_Request'):
+def send_data_request(server_ip='172.16.4.101',server_port = 80, input='Data_Request'):
 
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:  # define socket TCP
         s.connect((server_ip, server_port))

@@ -12,9 +12,8 @@ class ItemComponent(tk.Frame):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
-        self.sc = sensorController.SensorController()
         self.grid(row=row,column=0)
-
+        self.sc = sensorController.SensorController()
         #frame for checkbox, image
         self.pic_frame = tk.Frame(self)#, background="light green")
         self.pic_frame.grid(row=0, column=0, sticky="nsew")
@@ -54,11 +53,18 @@ class ItemComponent(tk.Frame):
         self.name_label = tk.Label(self.info_frame, textvariable=self.itemName_label, width=10, fg="#008080",anchor="sw", font=("Arial",15))
         self.name_label.grid(row=0, column=0, padx=20, pady=8, sticky="w")
         #
-        self.progressBar = tk.Canvas(self.info_frame, width=150, height=20, background="light grey")
-        self.progressBar.grid(row=1, column=0, padx=15, pady=4, sticky="nsew")
+        self.weight_frame = tk.Frame(self.info_frame)
+        self.weight_frame.grid(row=1, column=0, padx=15, pady=4, sticky="nsew")
 
-        self.current_weight = 100
-        self.progressBar.create_rectangle(0,0,self.current_weight,25, fill="#00C5CD")
+        self.desiredweight = tk.StringVar()
+        self.desiredweight.set(self.item.weight)
+        self.weightlabel = tk.Label(self.weight_frame, textvariable=self.desiredweight, width=6, background="light grey", font=("Arial",15))
+        self.weightlabel.grid(row=0, column=0, padx=8, pady=4, sticky="nsew")
+
+        self.currentweight = tk.StringVar()
+        self.currentweight.set(self.item.current_weight)
+        self.currentweight_entry = tk.Entry(self.weight_frame, textvariable=self.currentweight, width=6, state='readonly')
+        self.currentweight_entry.grid(row=0, column=1, padx=8, pady=4)
 
         self.update_path = os.path.join(application.resourcesFolder,'Icons/update.png')
         self.updateImage = Image.open(self.update_path)
@@ -85,11 +91,11 @@ class ItemComponent(tk.Frame):
         mainApp.changepage("MainUI") #navigate to mainui to refresh the page and remove the deleted item
 
     def refreshWeight(self):
-        self.sc.querySensor(self.item)
-
-        mainApp = self.parent.master.master.master  # go all the way to application.py
-        mainApp.changepage("MainUI")  # navigate to mainui to refresh the page and remove the deleted item
-
+        newWeight = self.sc.querySensor(self.item)
+        self.item.current_weight = newWeight
+        self.current_weight = self.item.current_weight
+        self.currentweight_entry.delete(0,'end')
+        self.currentweight.set(self.current_weight)
 
     def activeItem(self):
         self.active_update = csvController.CsvController()
