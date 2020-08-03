@@ -21,3 +21,12 @@ class SensorController:
 
         self.csvController.updateItemWeight(item,currentWeight)
         return currentWeight
+
+
+    def getWeightRegularly(self):
+        #active_item = self.csvController().getActiveItem()
+        #currentWeight = self.querySensor(active_item)
+        # self.csvController.updateItemWeight(active_item,currentWeight)
+        # ↓test
+        print("1[s]")
+        pass
