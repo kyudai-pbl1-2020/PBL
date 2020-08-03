@@ -1,7 +1,7 @@
 import tkinter as tk
 from PBL.Controller import csvController
 from .Components import itemComponent
-from PBL.mainThread import TimerThread
+#from PBL.mainThread import TimerThread
 import os
 from PBL import application
 from PBL.Model import item
@@ -37,7 +37,7 @@ class MainUI(tk.Frame):
                 if item.status == 'Active':
                     itemFrame.status_control.select()
 
-        TimerThread()
+        #TimerThread()
 
     def loadItemData(self):
         itemList = self.csvController.getItemData()
