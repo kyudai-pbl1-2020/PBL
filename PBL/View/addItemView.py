@@ -123,8 +123,8 @@ class AddItemView(tk.Frame):
         self.updateItemFromEntry()
         self.controller.download(self.img_url,self.product_name)
 
-        item = Item(self.product_name,self.weight_goal,self.unit_price,self.quantity,self.item_status,self.amazon_url,
-                    self.imgPath)
+        item = Item(self.product_name, self.weight_goal, self.unit_price, self.quantity, self.item_status,
+                    self.amazon_url, self.imgPath, 0)
         self.csvController = csvController.CsvController()
         self.csvController.appendItemToCSV(item)
 

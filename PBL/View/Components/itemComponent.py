@@ -62,6 +62,7 @@ class ItemComponent(tk.Frame):
         self.weightlabel.grid(row=0, column=0, padx=8, pady=4, sticky="nsew")
 
         self.currentweight = tk.StringVar()
+        self.currentweight.set(self.item.current_weight)
         self.currentweight_entry = tk.Entry(self.weight_frame, textvariable=self.currentweight, width=6, state='readonly')
         self.currentweight_entry.grid(row=0, column=1, padx=8, pady=4)
 
@@ -91,7 +92,8 @@ class ItemComponent(tk.Frame):
 
     def refreshWeight(self):
         newWeight = self.sc.querySensor(self.item)
-        self.current_weight = newWeight
+        self.item.current_weight = newWeight
+        self.current_weight = self.item.current_weight
         self.currentweight_entry.delete(0,'end')
         self.currentweight.set(self.current_weight)
 

@@ -25,7 +25,7 @@ class Application(tk.Tk):
         self.addMenu()
         self.sc = sensorController.SensorController()
         self.timer = RepeatedTimer(5,self.sc.getWeightRegularly)
-        MainUI.MainUI(self,timerThread=self.timer)
+        MainUI.MainUI(self)
 
     def addMenu(self):
         self.menu = tk.Menu()

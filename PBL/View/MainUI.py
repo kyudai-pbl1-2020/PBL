@@ -5,7 +5,7 @@ from .Components import itemComponent
 
 class MainUI(tk.Frame):
 
-    def __init__(self, parent,timerThread):
+    def __init__(self, parent):
         tk.Frame.__init__(self, parent)
         self.pack(side="top",fill="both",expand=True)
 

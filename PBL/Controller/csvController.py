@@ -52,8 +52,8 @@ class CsvController():
             file.readline() #Skip Headers
             for row in file:
                 data = row.split(' ')
-                newItem = item.Item(name=data[0], weight=data[1], unit_price=data[2], quantity=data[3],
-                                    status=data[4], amazon_url=data[5], imgPath=data[6].rstrip())
+                newItem = item.Item(name=data[0], weight=data[1], unit_price=data[2], quantity=data[3], status=data[4],
+                                    amazon_url=data[5], imgPath=data[6].rstrip(), current_weight=data[7])
 
                 itemList.append(newItem)
 
@@ -90,7 +90,7 @@ class CsvController():
             for row in reader:
                 fields = row[0].split(" ")
                 if fields[6] == item.imgPath:
-                    fields[1] = str(weight)
+                    fields[7] = str(weight)
                     row = fields
 
                 rows.append(row)
@@ -107,7 +107,8 @@ class CsvController():
             for i,row in enumerate(reader):
                 fields = row[0].split(" ")
                 if fields[4] == 'Active' or fields[4] == 'Ordered':
-                    activeItem = item.Item(fields[0],fields[1],fields[2],fields[3],fields[4],fields[5],fields[5])
+                    activeItem = item.Item(fields[0], fields[1], fields[2], fields[3], fields[4], fields[5],
+                                           fields[6],fields[7])
                     break
 
         return activeItem
