@@ -1,11 +1,7 @@
 import tkinter as tk
 from PBL.Controller import csvController
 from .Components import itemComponent
-from PBL.mainThread import TimerThread
-import os
-from PBL import application
-from PBL.Model import item
-import csv
+
 
 class MainUI(tk.Frame):
 

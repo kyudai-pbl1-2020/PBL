@@ -1,30 +1,28 @@
-import threading
+from threading import Timer
 import time
 from PBL.Controller import csvController
 
-class TimerThread(threading.Thread):
-    def __init__(self, *args, **kwargs):
-        super(TimerThread, self).__init__(*args, **kwargs)
-        self._stop_event = threading.Event()
-        self.start()
+class RepeatedTimer(object):
+        def __init__(self, interval, function, *args, **kwargs):
+            self._timer = None
+            self.interval = interval
+            self.function = function
+            self.args = args
+            self.kwargs = kwargs
+            self.is_running = False
+            self.start()
 
-    def run(self):
-        while not self.stopped():
-            self.getWeightRegularly()
+        def _run(self):
+            self.is_running = False
+            self.start()
+            self.function(*self.args, **self.kwargs)
 
-    def getWeightRegularly(self):
-        #active_item = csvController.CsvController().getActiveItem()
-        # new_weight = self.scaleController.getWeight()
-        # self.csvController.updateItemWeight(active_item,new_weight)
-        print("1[s]")
-        time.sleep(5)
-        # ↓test
-        pass
+        def start(self):
+            if not self.is_running:
+                self._timer = Timer(self.interval, self._run)
+                self._timer.start()
+                self.is_running = True
 
-
-    def stop(self):
-        self._stop_event.set()
-
-
-    def stopped(self):
-        return self._stop_event.is_set()
+        def stop(self):
+            self._timer.cancel()
+            self.is_running = False
