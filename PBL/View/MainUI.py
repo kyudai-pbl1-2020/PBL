@@ -34,7 +34,6 @@ class MainUI(tk.Frame):
                 itemFrame = itemComponent.ItemComponent(self.frame, itemList[index],index)
                 itemFrame.status = statusVariable
                 itemFrame.status_control['value']=index
-        self.getWeightRegularly()
 
         TimerThread()
 

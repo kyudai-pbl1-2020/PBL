@@ -22,7 +22,6 @@ class Application(tk.Tk):
         self.title("PBL 1 Application")
         self.addMenu()
         MainUI.MainUI(self)
-        #addItemView.AddItemView(self)
 
     def addMenu(self):
         self.menu = tk.Menu()
