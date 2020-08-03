@@ -7,7 +7,6 @@ class CsvController():
     def __init__(self):
         self.csvfile = os.path.join(application.resourcesFolder,'items.csv')
 
-
     def appendItemToCSV(self,item):
         if os.path.exists(self.csvfile):
             filemode = 'a'

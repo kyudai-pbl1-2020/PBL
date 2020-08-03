@@ -6,15 +6,15 @@ import os
 from PBL import application
 
 
+
 class ItemComponent(tk.Frame):
 
     def __init__(self, parent, item,row=None):
         tk.LabelFrame.__init__(self, parent)
         self.parent = parent
         self.item = item
-        self.sc = sensorController.SensorController()
         self.grid(row=row,column=0)
-
+        self.sc = sensorController.SensorController()
         #frame for checkbox, image
         self.pic_frame = tk.Frame(self)#, background="light green")
         self.pic_frame.grid(row=0, column=0, sticky="nsew")
@@ -85,7 +85,8 @@ class ItemComponent(tk.Frame):
         mainApp.changepage("MainUI") #navigate to mainui to refresh the page and remove the deleted item
 
     def refreshWeight(self):
-        self.sc.querySensor(self.item)
+        newWeight = self.sc.querySensor(self.item)
+        self.current_weight = newWeight
 
         mainApp = self.parent.master.master.master  # go all the way to application.py
         mainApp.changepage("MainUI")  # navigate to mainui to refresh the page and remove the deleted item
