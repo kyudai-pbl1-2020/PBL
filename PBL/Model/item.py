@@ -2,7 +2,7 @@
 class Item:
 
 
-    def __init__(self,name,weight,unit_price,quantity,status,amazon_url,imgPath):
+    def __init__(self, name, weight, unit_price, quantity, status, amazon_url, imgPath, current_weight=0):
         """
         :param name: Name of the item
         :param weight: Weight threshold for the item. Under this weight, new items must be ordered
@@ -19,12 +19,15 @@ class Item:
         self.status = status #Active,Inactive
         self.amazon_url = amazon_url
         self.imgPath = imgPath
+        self.current_weight=current_weight
+
 
 
     #Format used to write in the csv file
     def fileData(self):
-        headers = ['name','weight','unit_price','quantity','status','amazon_url','img']
-        data = [self.name,self.weight,self.unit_price,self.quantity,self.status,self.amazon_url,self.imgPath]
+        headers = ['name','desired_weight','unit_price','quantity','status','amazon_url','img','current_weight']
+        data = [self.name,self.weight,self.unit_price,self.quantity,self.status,self.amazon_url,self.imgPath,
+                self.current_weight]
 
         headers_data = {}
         headers_data['headers'] = headers

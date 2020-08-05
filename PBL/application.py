@@ -5,12 +5,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from PBL.View import addItemView
 from PBL.View import MainUI
 from PBL.View import credentialView
+from PBL.mainThread import RepeatedTimer
+from PBL.Controller import sensorController
 
 resourcesFolder = os.path.join(os.getcwd(), 'Resources')
 
 
-class Application(tk.Tk):
 
+class Application(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.makeResourcesFolder()
@@ -21,8 +23,9 @@ class Application(tk.Tk):
         #self.resizable(width=False,height=False)
         self.title("PBL 1 Application")
         self.addMenu()
+        self.sc = sensorController.SensorController()
+        self.timer = RepeatedTimer(5,self.sc.getWeightRegularly)
         MainUI.MainUI(self)
-        #addItemView.AddItemView(self)
 
     def addMenu(self):
         self.menu = tk.Menu()
@@ -33,6 +36,11 @@ class Application(tk.Tk):
         self.subMenu.add_command(label="Add Item Page", command=lambda: self.changepage("AddItem"))
         self.subMenu.add_command(label="Edit Amazon Credentials", command=lambda: self.changepage("Credentials"))
         self.subMenu.add_command(label="Quit", command=self.quit)
+
+
+    def close(self):
+        self.timer.stop()
+        self.destroy()
 
     def changepage(self,viewName):
         for widget in self.winfo_children():
@@ -50,8 +58,10 @@ class Application(tk.Tk):
         if not os.path.isdir(resourcesFolder):
             os.mkdir(resourcesFolder)
 
+
 def main():
     app = Application()
+    app.protocol("WM_DELETE_WINDOW",app.close)
     app.mainloop()
 
 if __name__ == "__main__":

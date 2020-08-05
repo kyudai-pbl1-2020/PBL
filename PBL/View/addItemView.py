@@ -88,7 +88,6 @@ class AddItemView(tk.Frame):
 
         #Get valid quantities from amazon dropdown menu and activate dropdown menu
         dropdown_options = self.controller.getQuantities()
-        print(dropdown_options)
         self.quantity = math.ceil(self.amazon_limit / float(self.unit_price))
         self.min_quantity = self.quantity
         dropdown_options = [value for value in dropdown_options if int(value) >= self.min_quantity]
@@ -124,8 +123,8 @@ class AddItemView(tk.Frame):
         self.updateItemFromEntry()
         self.controller.download(self.img_url,self.product_name)
 
-        item = Item(self.product_name,self.weight_goal,self.unit_price,self.quantity,self.item_status,self.amazon_url,
-                    self.imgPath)
+        item = Item(self.product_name, self.weight_goal, self.unit_price, self.quantity, self.item_status,
+                    self.amazon_url, self.imgPath, 0)
         self.csvController = csvController.CsvController()
         self.csvController.appendItemToCSV(item)
 
