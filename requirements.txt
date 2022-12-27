@@ -7,7 +7,7 @@ idna == 2.9
 pip == 20.0.2
 requests == 2.24.0
 selenium == 3.141.0
-setuptools == 46.0.0
+setuptools == 65.5.1
 urllib3 == 1.25.9
 virtualenv-clone == 0.5.4
 webdriver-manager == 3.2.1
